@@ -13,6 +13,9 @@ const CRITERIA_ORDER = [
 const app = document.querySelector('#app')
 
 app.innerHTML = `
+  <nav class="site-nav">
+    <a href="/">← Exercises for Reddit</a>
+  </nav>
   <div class="layout">
     <header class="header">
       <h1>Redditizer</h1>

@@ -1,8 +1,18 @@
-# Redditizer
+# Exercises for Reddit
 
-A local web tool that proofreads product copy against Reddit's style guide and UX writing rubric in [`docs/`](docs/).
+A small collection of prototypes. The site home lists sub-projects; each lives at its own path.
 
-## Setup
+| Path | Project |
+|------|---------|
+| `/` | Directory home |
+| `/redditizer/` | LLM-based UX copy review against Reddit's style guide |
+| `/ghost-fees/` | Ghost vs Substack pricing calculator |
+
+## Redditizer
+
+Proofreads product copy against Reddit's style guide and UX writing rubric in [`docs/`](docs/).
+
+### Setup
 
 1. Copy the environment template and add your API key:
 
@@ -26,9 +36,9 @@ A local web tool that proofreads product copy against Reddit's style guide and U
    pnpm dev
    ```
 
-4. Open [http://localhost:5173](http://localhost:5173), paste copy or upload a screenshot, and click **Analyze**.
+4. Open [http://localhost:5173/](http://localhost:5173/) for the site home, or [http://localhost:5173/redditizer/](http://localhost:5173/redditizer/) to use Redditizer directly. Paste copy or upload a screenshot, then click **Redditize**.
 
-## Screenshot workflow
+### Screenshot workflow
 
 1. Add a screenshot via the upload zone, or paste/drag an image directly into **Copy to review** (text extraction runs automatically).
 2. Or use the upload zone and click **Extract text** manually.
@@ -36,7 +46,7 @@ A local web tool that proofreads product copy against Reddit's style guide and U
 
 Screenshots are sent to your configured LLM provider for vision-based text extraction (same API key as analysis). If the provider’s free quota is exhausted, the app falls back to basic in-browser OCR (Tesseract; first run downloads English language data). Only the extracted text is used for the style-guide review.
 
-## Switching providers
+### Switching providers
 
 Change `LLM_PROVIDER` in `.env` to `anthropic` or `google`, set the matching API key, and restart the API server (`pnpm dev:server` or full `pnpm dev`).
 
@@ -49,6 +59,12 @@ Change `LLM_PROVIDER` in `.env` to `anthropic` or `google`, set the matching API
 | `pnpm dev:server` | API server only |
 | `pnpm build` | Build static frontend to `dist/` |
 | `pnpm preview` | Preview built frontend (API must run separately) |
+
+## Deploy (Netlify)
+
+The repo includes [`netlify.toml`](netlify.toml). Connect the site on Netlify; the build runs `pnpm build` and publishes `dist/`.
+
+Static pages (`/`, `/redditizer/`, `/ghost-fees/`) deploy as-is. **Redditizer’s analyze and screenshot APIs require a backend**—they work locally via Vite’s proxy to the Node server on port 3001. On Netlify production, `/api/*` is not wired yet; use `pnpm dev` locally, or add Netlify Functions / an external API host in a follow-up.
 
 ## API
 

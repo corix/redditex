@@ -3,10 +3,33 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Redditizer — UX copy review</title>
+    <title>Exercises for Reddit</title>
+    <link rel="stylesheet" href="/src/site.css" />
   </head>
   <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
+    <div class="site-layout">
+      <header class="site-header">
+        <h1>Exercises for Reddit</h1>
+        <p class="site-intro">Small experiments and prototypes.</p>
+      </header>
+
+      <ul class="directory">
+        <li>
+          <a class="directory-card" href="/redditizer/">
+            <h2>Redditizer</h2>
+            <p>Crude prototype of an LLM-based quality checker for UI strings.</p>
+          </a>
+        </li>
+        <li>
+          <a class="directory-card" href="/ghost-fees/">
+            <h2>Ghost Fees</h2>
+            <p>
+              Compare Ghost.org and Substack pricing—calculator for take-home
+              pay vs fees at your list size.
+            </p>
+          </a>
+        </li>
+      </ul>
+    </div>
   </body>
 </html>

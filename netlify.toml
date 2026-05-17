@@ -1,0 +1,17 @@
+[build]
+  command = "pnpm build"
+  publish = "dist"
+
+[[redirects]]
+  from = "/ghostfees"
+  to = "/ghost-fees/"
+  status = 301
+
+[[redirects]]
+  from = "/ghostfees/*"
+  to = "/ghost-fees/:splat"
+  status = 301
+
+[dev]
+  command = "pnpm dev"
+  targetPort = 5173

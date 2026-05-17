@@ -29,6 +29,22 @@ body {
   margin: 0;
 }
 
+.site-nav {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 1.25rem 1.25rem 0;
+}
+
+.site-nav a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.875rem;
+}
+
+.site-nav a:hover {
+  color: var(--accent);
+}
+
 .layout {
   max-width: 720px;
   margin: 0 auto;
