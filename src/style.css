@@ -356,17 +356,15 @@ textarea.copy-input-dragover {
 }
 
 .suggestion {
-  padding: 0.75rem;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .suggestion-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.5rem;
 }
 
 .suggestion-label {
@@ -388,14 +386,23 @@ textarea.copy-input-dragover {
   background: var(--border);
 }
 
-.suggestion-text {
-  margin: 0 0 0.35rem;
-  font-weight: 600;
-  font-size: 1rem;
+.suggestion-copy {
+  margin: 0;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  font-size: 0.95rem;
+  font-weight: 400;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
 .suggestion-rationale {
   margin: 0;
   font-size: 0.85rem;
+  font-weight: 400;
   color: var(--text-muted);
+  line-height: 1.45;
 }

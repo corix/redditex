@@ -30,11 +30,11 @@ A local web tool that proofreads product copy against Reddit's style guide and U
 
 ## Screenshot workflow
 
-1. Add a screenshot via the upload zone, or paste/drag an image directly into **Copy to review** (OCR runs automatically).
-2. Or use the upload zone and click **Extract text** manually. The first OCR run downloads English language data.
-3. Edit the extracted text if needed, add optional context, then click **Analyze**.
+1. Add a screenshot via the upload zone, or paste/drag an image directly into **Copy to review** (text extraction runs automatically).
+2. Or use the upload zone and click **Extract text** manually.
+3. Edit the extracted text if needed, add optional context, then click **Redditize**.
 
-OCR runs entirely in the browser; only the text you submit is sent to the LLM API. Works best on clear, high-contrast UI screenshots.
+Screenshots are sent to your configured LLM provider for vision-based text extraction (same API key as analysis). If the provider’s free quota is exhausted, the app falls back to basic in-browser OCR (Tesseract; first run downloads English language data). Only the extracted text is used for the style-guide review.
 
 ## Switching providers
 
@@ -62,3 +62,14 @@ Change `LLM_PROVIDER` in `.env` to `anthropic` or `google`, set the matching API
 ```
 
 Returns structured analysis: summary, 5C rubric scores, issues, and suggested alternatives.
+
+`POST /api/extract-text`
+
+```json
+{
+  "imageBase64": "<base64-encoded image bytes>",
+  "mimeType": "image/png"
+}
+```
+
+Returns `{ "text": "...", "method": "vision", "provider": "google" }`. On quota/rate-limit errors, responds with `429` and `{ "quotaExceeded": true }` so the client can fall back to local OCR.

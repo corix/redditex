@@ -19,7 +19,8 @@ function validateImageFile(file) {
   }
 }
 
-export async function extractTextFromImage(file) {
+/** Local Tesseract fallback when vision API quota is exhausted. */
+export async function extractTextFromImageLocal(file) {
   validateImageFile(file)
 
   const { createWorker } = await import('tesseract.js')

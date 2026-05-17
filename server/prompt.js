@@ -44,6 +44,7 @@ ${styleGuide}
 - Prefer minimal edits when copy is already strong.
 - Distinguish errors (wrong term, misleading, offensive) from improvements (could be more concise).
 - Alternatives must be production-ready UI copy, not meta-commentary.
+- In suggestions.text use plain text only (no markdown, no bold). Preserve line breaks and multi-line structure when the input has labels like Heading/Body/CTA on separate lines.
 - Return your analysis using the submit_analysis tool.`
 }
 

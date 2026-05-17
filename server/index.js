@@ -1,6 +1,8 @@
 import './load-env.js'
 import { createServer } from 'node:http'
-import { analyzeCopy, getActiveProviderName } from './llm.js'
+import { analyzeCopy, extractTextFromImage, getActiveProviderName } from './llm.js'
+import { parseImageBody } from './image-body.js'
+import { QuotaExceededError } from './quota.js'
 import { buildSystemPrompt, buildUserMessage } from './prompt.js'
 
 const PORT = Number(process.env.PORT) || 3001
@@ -40,32 +42,58 @@ async function handleRequest(req, res) {
     return
   }
 
-  if (req.method !== 'POST' || req.url !== '/api/analyze') {
+  if (req.method !== 'POST') {
     sendJson(res, 404, { error: 'Not found' })
     return
   }
 
   try {
-    const body = await readBody(req)
-    const text = typeof body.text === 'string' ? body.text.trim() : ''
-    const context = typeof body.context === 'string' ? body.context : ''
+    if (req.url === '/api/analyze') {
+      const body = await readBody(req)
+      const text = typeof body.text === 'string' ? body.text.trim() : ''
+      const context = typeof body.context === 'string' ? body.context : ''
 
-    if (!text) {
-      sendJson(res, 400, { error: 'text is required' })
+      if (!text) {
+        sendJson(res, 400, { error: 'text is required' })
+        return
+      }
+
+      const system = buildSystemPrompt()
+      const user = buildUserMessage(text, context)
+      const analysis = await analyzeCopy({ system, user })
+
+      sendJson(res, 200, { analysis, provider: getActiveProviderName() })
       return
     }
 
-    const system = buildSystemPrompt()
-    const user = buildUserMessage(text, context)
-    const analysis = await analyzeCopy({ system, user })
+    if (req.url === '/api/extract-text') {
+      const body = await readBody(req)
+      const image = parseImageBody(body)
+      const text = await extractTextFromImage(image)
 
-    sendJson(res, 200, { analysis, provider: getActiveProviderName() })
+      sendJson(res, 200, {
+        text,
+        method: 'vision',
+        provider: getActiveProviderName(),
+      })
+      return
+    }
+
+    sendJson(res, 404, { error: 'Not found' })
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'Analysis failed'
+    if (err instanceof QuotaExceededError) {
+      sendJson(res, 429, { error: err.message, quotaExceeded: true })
+      return
+    }
+
+    const message = err instanceof Error ? err.message : 'Request failed'
     const status =
       message.includes('not set') ||
       message.includes('not supported') ||
-      message.includes('Unknown LLM_PROVIDER')
+      message.includes('Unknown LLM_PROVIDER') ||
+      message.includes('is required') ||
+      message.includes('Unsupported') ||
+      message.includes('must be')
         ? 400
         : 500
     sendJson(res, status, { error: message })

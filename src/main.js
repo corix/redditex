@@ -1,6 +1,6 @@
 import './style.css'
 import { analyzeCopy } from './api.js'
-import { extractTextFromImage, validateImageFile } from './ocr.js'
+import { extractTextFromImage, validateImageFile } from './extract.js'
 
 const CRITERIA_ORDER = [
   'Concise',
@@ -88,13 +88,6 @@ function showOcrStatus(message, type = 'info') {
   ocrStatus.className = `ocr-status ocr-status-${type}`
 }
 
-function stripBlankLines(text) {
-  return text
-    .split('\n')
-    .filter((line) => line.trim())
-    .join('\n')
-}
-
 function renderPreview() {
   previewArea.innerHTML = `
     <img class="preview-img" alt="Screenshot preview" src="${previewUrl}" />
@@ -138,12 +131,19 @@ async function runExtraction(file) {
   showError('')
   const extractBtn = previewArea.querySelector('[data-action="extract"]')
   if (extractBtn) extractBtn.disabled = true
-  showOcrStatus('Extracting text… (first run may download language data)', 'loading')
+  showOcrStatus('Extracting text with vision…', 'loading')
 
   try {
-    const text = stripBlankLines(await extractTextFromImage(file))
+    const { text, fallback } = await extractTextFromImage(file)
     copyInput.value = text
-    showOcrStatus('Text extracted. Edit if needed, then Redditize.', 'success')
+    if (fallback) {
+      showOcrStatus(
+        'API quota reached — used basic OCR instead. Edit the text, then Redditize.',
+        'success',
+      )
+    } else {
+      showOcrStatus('Text extracted. Edit if needed, then Redditize.', 'success')
+    }
   } catch (err) {
     showOcrStatus(err instanceof Error ? err.message : 'Extraction failed', 'error')
   } finally {
@@ -289,18 +289,19 @@ function renderIssuesHtml(issues) {
 
 function renderSuggestionsHtml(suggestions) {
   const items = suggestions
-    .map(
-      (s, i) => `
+    .map((s, i) => {
+      const copyText = formatSuggestionText(s.text)
+      return `
       <div class="suggestion">
         <div class="suggestion-header">
           <span class="suggestion-label">Option ${i + 1}</span>
-          <button type="button" class="btn-copy" data-text="${escapeAttr(s.text)}">Copy</button>
+          <button type="button" class="btn-copy">Copy</button>
         </div>
-        <p class="suggestion-text">${escapeHtml(s.text)}</p>
+        <div class="suggestion-copy">${escapeHtml(copyText)}</div>
         <p class="suggestion-rationale">${escapeHtml(s.rationale)}</p>
       </div>
-    `,
-    )
+    `
+    })
     .join('')
 
   return `
@@ -314,7 +315,9 @@ function renderSuggestionsHtml(suggestions) {
 function bindCopyButtons() {
   resultsEl.querySelectorAll('.btn-copy').forEach((btn) => {
     btn.addEventListener('click', async () => {
-      await navigator.clipboard.writeText(btn.dataset.text)
+      const text =
+        btn.closest('.suggestion')?.querySelector('.suggestion-copy')?.textContent ?? ''
+      await navigator.clipboard.writeText(text)
       btn.textContent = 'Copied'
       setTimeout(() => {
         btn.textContent = 'Copy'
@@ -333,6 +336,16 @@ function escapeHtml(str) {
 
 function escapeAttr(str) {
   return str.replace(/"/g, '&quot;').replace(/'/g, '&#39;')
+}
+
+/** Plain suggestion copy: strip markdown emphasis, keep line breaks. */
+function formatSuggestionText(text) {
+  return text
+    .replace(/\*\*([^*]+)\*\*/g, '$1')
+    .replace(/\*([^*]+)\*/g, '$1')
+    .replace(/__([^_]+)__/g, '$1')
+    .replace(/_([^_]+)_/g, '$1')
+    .trim()
 }
 
 function renderResults(data) {
@@ -375,7 +388,11 @@ form.addEventListener('submit', async (e) => {
   resultsEl.innerHTML = ''
   resultsEl.hidden = true
 
-  const text = stripBlankLines(copyInput.value.trim())
+  const text = copyInput.value
+    .trim()
+    .split('\n')
+    .filter((line) => line.trim())
+    .join('\n')
   if (!text) {
     showError('Please enter copy to review.')
     return

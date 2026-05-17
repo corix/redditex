@@ -26,3 +26,22 @@ export async function analyzeCopy(args) {
 
   return provider.analyzeCopy(args)
 }
+
+export async function extractTextFromImage(args) {
+  const name = getActiveProviderName()
+
+  if (BLOCKED.has(name)) {
+    throw new Error(`Provider "${name}" is not supported. OpenAI and Grok are excluded.`)
+  }
+
+  const provider = providers[name]
+  if (!provider) {
+    throw new Error(`Unknown LLM_PROVIDER: "${name}". Supported: anthropic, google`)
+  }
+
+  if (!provider.extractTextFromImage) {
+    throw new Error(`Provider "${name}" does not support screenshot extraction`)
+  }
+
+  return provider.extractTextFromImage(args)
+}
