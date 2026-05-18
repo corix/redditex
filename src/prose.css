@@ -93,6 +93,50 @@
   font-weight: 700;
 }
 
+.prose--write-up > blockquote {
+  position: relative;
+  margin: 0 0 var(--space-4);
+  margin-left: calc(var(--write-up-text-inset) + var(--space-8));
+  margin-right: auto;
+  max-width: calc(100% - var(--write-up-text-inset) - var(--space-8) - var(--write-up-text-inset));
+  padding: 0 0 0 calc(var(--space-4) + 8px);
+}
+
+.prose--write-up > blockquote::before,
+.prose--write-up > blockquote::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+}
+
+.prose--write-up > blockquote::before {
+  left: 0;
+  background: #00e8ff;
+}
+
+.prose--write-up > blockquote::after {
+  left: 4px;
+  background: #ff9ed8;
+}
+
+.prose--write-up > blockquote p {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-base);
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+.prose--write-up > blockquote cite {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-style: normal;
+  line-height: 1.45;
+  color: var(--text-muted);
+}
+
 /* Patreon—priority labels (P0 / P1 / P2–3) only */
 .prose--patreon > p:not(.prose-tldr) > strong:not(.prose-priority) {
   font-weight: 600;
@@ -204,6 +248,22 @@
 
 .prose a:hover {
   text-decoration-color: transparent;
+}
+
+.prose a:has(strong) {
+  text-decoration: none;
+}
+
+.prose a:has(strong):hover,
+.prose a:has(strong):hover strong,
+.prose a:has(strong):focus-visible,
+.prose a:has(strong):focus-visible strong {
+  color: var(--link-hover);
+}
+
+.prose a:has(strong):hover::before,
+.prose a:has(strong):focus-visible::before {
+  content: none;
 }
 
 .prose hr {

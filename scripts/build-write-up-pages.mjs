@@ -123,7 +123,7 @@ function mergeExamplesGallery(body) {
   )
 }
 
-const GHOST_TAKEAWAYS = `<h4>Takeaways</h4>
+const GHOST_TAKEAWAYS = `<h4>Further experimentation</h4>
 <p>Spin-offs from this audit: <a href="/appendix/fee-calculator/"><strong>Ghost Fees</strong></a> (stress-test take-home pay), <a href="/appendix/redditizer/"><strong>Redditizer</strong></a> (draft clearer copy), and the <a href="/appendix/">Appendix</a> for QA output and research notes.</p>`
 
 const GHOST_PRICING_COMPARISON = `<figure class="image-compare" data-image-compare style="--compare: 75%">
@@ -164,7 +164,7 @@ function patchGhostArticle(body) {
       `$1${GHOST_PRICING_COMPARISON}`,
     )
   }
-  if (!out.includes('<h4>Takeaways</h4>')) {
+  if (!out.includes('<h4>Further experimentation</h4>')) {
     out += GHOST_TAKEAWAYS
   }
   return out

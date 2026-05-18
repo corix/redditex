@@ -160,9 +160,15 @@ body.appendix-body {
   transition: background 0.15s;
 }
 
-#panel-tools .appendix-tools-gallery__cta:hover {
+#panel-tools .appendix-tools-gallery__cta:hover,
+#panel-tools .appendix-tools-gallery__cta:focus-visible {
   background: var(--accent-hover);
   color: #fff;
+}
+
+#panel-tools .appendix-tools-gallery__cta:hover::before,
+#panel-tools .appendix-tools-gallery__cta:focus-visible::before {
+  content: none;
 }
 
 @media (max-width: 40rem) {
