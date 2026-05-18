@@ -1400,7 +1400,7 @@ The full appearance a redditor chooses for their avatar. Someone can save past l
 
 ##### Collectible Avatars Shop
 
-The online marketplace where redditors can find and purchase Collectible Avatars from independent creators. Also referred to casually as shop or the the shop. 
+The online marketplace where redditors can find and purchase Collectible Avatars from independent creators. Also referred to casually as shop or the shop. 
 
 * uppercase
 

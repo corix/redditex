@@ -542,7 +542,7 @@ const homeHtml = contentShell({
             ${directoryItem({
               href: '/messaging-ghost/',
               title: 'Ghost.org onboarding',
-              description: 'Onboard and evaluate as potential viable alternative to Substack',
+              description: 'Onboard and evaluate as a potentially viable alternative to Substack',
               thumb: HERO_THUMBS.ghost,
               thumbAlt: 'Ghost.org homepage',
               fetchPriority: 'high',
@@ -561,7 +561,7 @@ const homeHtml = contentShell({
             ${directoryItem({
               href: '/appendix/',
               title: 'Appendix',
-              description: 'interactive tools, quality testing, audit notes',
+              description: 'Interactive tools, quality testing, audit notes',
               thumb: HERO_THUMBS.fees,
               thumbAlt: 'Ghost vs Substack fee calculator',
               thumbSize: HOME_THUMB_SIZE,
