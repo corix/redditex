@@ -71,6 +71,24 @@ The repo includes [`netlify.toml`](netlify.toml). Connect the site on Netlify; t
 
 Static pages deploy as-is. Legacy URLs `/redditizer/` and `/ghost-fees/` redirect to `/appendix/…`. **Redditizer’s analyze and screenshot APIs require a backend**—they work locally via Vite’s proxy to the Node server on port 3001. On Netlify production, `/api/*` is not wired yet; use `pnpm dev` locally, or add Netlify Functions / an external API host in a follow-up.
 
+### Staging access (HTTP Basic Auth)
+
+The live site uses a Netlify Edge Function ([`netlify/edge-functions/protect.js`](netlify/edge-functions/protect.js)) for site-wide HTTP Basic Auth (works on the Personal plan without Pro password protection).
+
+In the Netlify UI, set **Site configuration → Environment variables** for Production (and Deploy previews if you want those gated too):
+
+| Variable | Purpose |
+|----------|---------|
+| `BASIC_AUTH_USER` | Username shown in the browser login dialog |
+| `BASIC_AUTH_PASSWORD` | Shared password (use a strong random value) |
+
+Redeploy after adding or changing these variables. If either variable is missing, the site stays open (no auth).
+
+- `pnpm dev` is unchanged and does not run the edge function.
+- To test the gate locally, use `netlify dev` and optionally set the same variables under `[context.dev.environment]` in `netlify.toml`.
+
+On Pro or Enterprise, you can instead use [Netlify Password Protection](https://docs.netlify.com/manage/security/secure-access-to-sites/password-protection/) in the dashboard and remove the edge function.
+
 ## API
 
 `POST /api/analyze`
