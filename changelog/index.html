@@ -5,15 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Changelog — Exercises for Reddit</title>
     <link rel="stylesheet" href="/src/site.css" />
-    <link rel="stylesheet" href="/changelog/changelog.css" />
+    <link rel="stylesheet" href="/src/prose.css" />
   </head>
   <body>
     <div class="site-layout site-layout--wide">
-      <nav class="site-nav">
-        <a href="/">← Exercises for Reddit</a>
+      <nav class="site-nav" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span class="site-nav__sep">/</span>
+        <span class="site-nav__current">Changelog</span>
       </nav>
 
-      <article id="changelog" class="changelog-prose" aria-live="polite"></article>
+      <header class="site-header">
+        <h1>Changelog</h1>
+        <p class="site-lead">Project diary and milestones.</p>
+      </header>
+
+      <main class="site-main">
+        <article id="changelog" class="prose" aria-live="polite"></article>
+      </main>
+
+      <footer class="site-footer">
+        <a href="/changelog/">Changelog</a>
+        <a href="/">Home</a>
+      </footer>
     </div>
     <script type="module" src="/changelog/main.js"></script>
   </body>

@@ -6,8 +6,11 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
-        redditizer: resolve(__dirname, 'redditizer/index.html'),
-        ghostFees: resolve(__dirname, 'ghost-fees/index.html'),
+        onboardingPatreon: resolve(__dirname, 'onboarding-patreon/index.html'),
+        messagingGhost: resolve(__dirname, 'messaging-ghost/index.html'),
+        appendix: resolve(__dirname, 'appendix/index.html'),
+        feeCalculator: resolve(__dirname, 'appendix/fee-calculator/index.html'),
+        redditizer: resolve(__dirname, 'appendix/redditizer/index.html'),
         changelog: resolve(__dirname, 'changelog/index.html'),
       },
     },

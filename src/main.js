@@ -14,7 +14,7 @@ const app = document.querySelector('#app')
 
 app.innerHTML = `
   <nav class="site-nav">
-    <a href="/">← Exercises for Reddit</a>
+    <a href="/appendix/">← Appendix</a> · <a href="/">Home</a>
   </nav>
   <div class="layout">
     <header class="header">

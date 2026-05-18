@@ -5,35 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Exercises for Reddit</title>
     <link rel="stylesheet" href="/src/site.css" />
+    <link rel="stylesheet" href="/src/prose.css" />
   </head>
   <body>
-    <div class="site-layout">
+    <div class="site-layout site-layout--wide">
+      <nav class="site-nav" aria-label="Site"><span class="site-nav__current">Exercises for Reddit</span></nav>
       <header class="site-header">
         <h1>Exercises for Reddit</h1>
-        <p class="site-intro">Small experiments and prototypes.</p>
+        <p class="site-lead">Small experiments and prototypes.</p>
       </header>
-
-      <ul class="directory">
-        <li>
-          <a class="directory-card" href="/redditizer/">
-            <h2>Redditizer</h2>
-            <p>Crude prototype of an LLM-based quality checker for UI strings.</p>
-          </a>
-        </li>
-        <li>
-          <a class="directory-card" href="/ghost-fees/">
-            <h2>Ghost Fees</h2>
-            <p>
-              Compare Ghost.org and Substack pricing—calculator for take-home
-              pay vs fees at your list size.
-            </p>
-          </a>
-        </li>
-      </ul>
-
+      <main class="site-main">
+        
+        <article class="prose prose--home"><h1>UX writing audits and recommendations</h1><p>This is an exploration of UI surfaces for:</p><ul class="bulleted-list"><li><strong>Onboarding on </strong><strong><a href="https://ghost.org">Ghost.org</a></strong><strong> </strong>— specifically as a viable alternative to Substack for people who want to make the switch</li></ul><ul class="bulleted-list"><li><strong>Direct messaging </strong>on <strong>Patreon</strong></li></ul></article>
+        <ul class="directory">
+          <li>
+            <a class="directory-card" href="/onboarding-patreon/">
+              <h2>Patreon direct messaging</h2>
+              <p>UX teardown of Patreon DMs and mobile inbox patterns.</p>
+            </a>
+          </li>
+          <li>
+            <a class="directory-card" href="/messaging-ghost/">
+              <h2>Ghost.org onboarding</h2>
+              <p>Onboarding, signup, and pricing messaging on Ghost.</p>
+            </a>
+          </li>
+          <li>
+            <a class="directory-card" href="/appendix/">
+              <h2>Appendix</h2>
+              <p>Supporting notes, prototypes, and interactive tools.</p>
+            </a>
+          </li>
+        </ul>
+      </main>
+      
       <footer class="site-footer">
         <a href="/changelog/">Changelog</a>
+        <a href="/">Home</a>
       </footer>
-    </div>
+    
   </body>
 </html>

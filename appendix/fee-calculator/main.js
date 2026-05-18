@@ -1,4 +1,4 @@
-import '../src/site.css'
+import '../../src/site.css'
 import './ghostfees.css'
 import {
   computeSnapshot,
@@ -389,7 +389,7 @@ function init() {
 
   app.innerHTML = `
     <div class="site-layout ghostfees-layout">
-      <nav class="site-nav"><a href="/">← Exercises for Reddit</a></nav>
+      <nav class="site-nav"><a href="/appendix/">← Appendix</a> · <a href="/">Home</a></nav>
 
       <header class="site-header">
         <h1>Ghost Fees</h1>

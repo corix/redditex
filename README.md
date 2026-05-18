@@ -1,12 +1,16 @@
 # Exercises for Reddit
 
-A small collection of prototypes. The site home lists sub-projects; each lives at its own path.
+UX writing audits and interactive prototypes. The home page links to write-ups and tools under `/appendix/`.
 
 | Path | Project |
 |------|---------|
-| `/` | Directory home |
-| `/redditizer/` | LLM-based UX copy review against Reddit's style guide |
-| `/ghost-fees/` | Ghost vs Substack pricing calculator |
+| `/` | Home — write-up index |
+| `/onboarding-patreon/` | Patreon direct messaging teardown |
+| `/messaging-ghost/` | Ghost.org onboarding audit |
+| `/appendix/` | Appendix notes + tool links |
+| `/appendix/redditizer/` | LLM-based UX copy review against Reddit's style guide |
+| `/appendix/fee-calculator/` | Ghost vs Substack pricing calculator |
+| `/changelog/` | Project diary |
 
 ## Redditizer
 
@@ -36,7 +40,7 @@ Proofreads product copy against Reddit's style guide and UX writing rubric in [`
    pnpm dev
    ```
 
-4. Open [http://localhost:5173/](http://localhost:5173/) for the site home, or [http://localhost:5173/redditizer/](http://localhost:5173/redditizer/) to use Redditizer directly. Paste copy or upload a screenshot, then click **Redditize**.
+4. Open [http://localhost:5173/](http://localhost:5173/) for the site home, or [http://localhost:5173/appendix/redditizer/](http://localhost:5173/appendix/redditizer/) to use Redditizer directly. Paste copy or upload a screenshot, then click **Redditize**.
 
 ### Screenshot workflow
 
@@ -59,12 +63,13 @@ Change `LLM_PROVIDER` in `.env` to `anthropic` or `google`, set the matching API
 | `pnpm dev:server` | API server only |
 | `pnpm build` | Build static frontend to `dist/` |
 | `pnpm preview` | Preview built frontend (API must run separately) |
+| `pnpm write-ups:build` | Re-optimize images, split Notion export, regenerate article HTML |
 
 ## Deploy (Netlify)
 
 The repo includes [`netlify.toml`](netlify.toml). Connect the site on Netlify; the build runs `pnpm build` and publishes `dist/`.
 
-Static pages (`/`, `/redditizer/`, `/ghost-fees/`) deploy as-is. **Redditizer’s analyze and screenshot APIs require a backend**—they work locally via Vite’s proxy to the Node server on port 3001. On Netlify production, `/api/*` is not wired yet; use `pnpm dev` locally, or add Netlify Functions / an external API host in a follow-up.
+Static pages deploy as-is. Legacy URLs `/redditizer/` and `/ghost-fees/` redirect to `/appendix/…`. **Redditizer’s analyze and screenshot APIs require a backend**—they work locally via Vite’s proxy to the Node server on port 3001. On Netlify production, `/api/*` is not wired yet; use `pnpm dev` locally, or add Netlify Functions / an external API host in a follow-up.
 
 ## API
 

@@ -4,12 +4,32 @@
 
 [[redirects]]
   from = "/ghostfees"
-  to = "/ghost-fees/"
+  to = "/appendix/fee-calculator/"
   status = 301
 
 [[redirects]]
   from = "/ghostfees/*"
-  to = "/ghost-fees/:splat"
+  to = "/appendix/fee-calculator/:splat"
+  status = 301
+
+[[redirects]]
+  from = "/ghost-fees"
+  to = "/appendix/fee-calculator/"
+  status = 301
+
+[[redirects]]
+  from = "/ghost-fees/*"
+  to = "/appendix/fee-calculator/:splat"
+  status = 301
+
+[[redirects]]
+  from = "/redditizer"
+  to = "/appendix/redditizer/"
+  status = 301
+
+[[redirects]]
+  from = "/redditizer/*"
+  to = "/appendix/redditizer/:splat"
   status = 301
 
 [dev]

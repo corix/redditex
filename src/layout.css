@@ -1,0 +1,140 @@
+.site-layout {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: var(--space-8) var(--space-5) 4rem;
+}
+
+.site-layout--wide {
+  max-width: var(--layout-max);
+}
+
+.site-main {
+  margin-bottom: var(--space-6);
+}
+
+.site-header {
+  margin-bottom: var(--space-6);
+}
+
+.site-header h1 {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.site-lead,
+.site-intro {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: var(--text-base);
+  max-width: 40em;
+}
+
+.site-intro {
+  margin-bottom: var(--space-8);
+}
+
+.site-nav {
+  margin-bottom: var(--space-6);
+  font-size: var(--text-sm);
+}
+
+.site-nav a {
+  color: var(--text-muted);
+  text-decoration: none;
+}
+
+.site-nav a:hover {
+  color: var(--accent);
+}
+
+.site-nav__sep {
+  margin: 0 var(--space-2);
+  color: var(--border);
+}
+
+.site-nav__current {
+  color: var(--text);
+}
+
+.directory {
+  list-style: none;
+  margin: 0 0 var(--space-8);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.directory-card {
+  display: block;
+  padding: var(--space-5) var(--space-6);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  text-decoration: none;
+  color: inherit;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+
+.directory-card:hover {
+  border-color: var(--accent);
+  box-shadow: var(--shadow-hover);
+}
+
+.directory-card h2 {
+  margin: 0 0 var(--space-1);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.directory-card p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.coming-soon {
+  display: inline-block;
+  margin-top: var(--space-4);
+  padding: 0.35rem var(--space-3);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.page-subtitle {
+  margin: 0 0 var(--space-4);
+  color: var(--text-muted);
+  font-size: var(--text-base);
+  max-width: 36em;
+}
+
+.site-footer {
+  margin-top: var(--space-8);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--border);
+  font-size: var(--text-sm);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.site-footer a {
+  color: var(--text-muted);
+  text-decoration: none;
+}
+
+.site-footer a:hover {
+  color: var(--accent);
+}
