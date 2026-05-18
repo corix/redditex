@@ -780,6 +780,19 @@ body.prose-lightbox-open {
 }
 
 /* Changelog (DIARY.md) */
+.prose--changelog strong:not(.changelog-finale) {
+  font-weight: inherit;
+  color: inherit;
+}
+
+.prose--changelog strong:not(.changelog-finale)::before {
+  content: none;
+}
+
+.prose--changelog th {
+  font-weight: 500;
+}
+
 .prose .changelog-note {
   margin: 0 0 var(--space-4);
   color: var(--text-muted);

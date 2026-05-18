@@ -1,30 +1,18 @@
 # Project diary
 
-<p class="changelog-note">All text on this page is machine generated.</p>
-
-Running log of milestones for **Exercises for Reddit** (write-ups, tools, and prototypes). All times are **Pacific Time (PT)**—PDT (`UTC-7`) when daylight saving is in effect, PST (`UTC-8`) otherwise.
+Total: 13h dev + est. 8h design
 
 
-| Timestamp (PT)      | Duration | Milestone                             | What was built                                                                                                                                                                                                                                                                              |
-| ------------------- | -------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 2026-05-16 11:06 PM | 52m      | Project setup and reference docs      | Started the project and a bare-bones web page. Imported Reddit’s official style guide, trimmed it for use, organized it under `/docs/`, and added a short scoring rubric (how “good” the writing is on clarity, tone, and similar dimensions).                                              |
-| 2026-05-16 11:56 PM | 50m      | Working prototype (Google AI Studio)  | First usable version of the app: paste product copy in the browser, run an analysis, and get structured feedback—summary, rubric scores, flagged issues, and suggested rewrites—powered by Google’s AI. Includes setup instructions so the project can be run locally.                      |
-| 2026-05-17 12:39 AM | 43m      | Screenshot text extraction and polish | Upload, paste, or drag screenshots to pull text into the review box—using AI vision for accurate reading, with basic OCR as a backup if API limits kick in. Fixed Google API setup and quota handling; refined the results UI (including suggested rewrites). Prototype working end-to-end. |
-| 2026-05-17 3:44 PM  | 4h 6m    | Exercises hub and Ghost Fees calculator | Reorganized into a small multi-page site (“Exercises for Reddit”) with a home directory. Moved Redditizer to `/redditizer`. Built **Ghost Fees**: an interactive calculator that compares Ghost and Substack take-home pay from audience size, paid subscribers, subscription price, and Ghost plan tier (Starter, Publisher, Business), including monthly vs annual billing and tiered pricing. |
-| 2026-05-17 5:07 PM  | 45m      | Changelog page | Project diary at `/changelog/`, rendered from `DIARY.md` (edit markdown, page updates in dev). Footer link on the home page. |
-| 2026-05-18 1:00 AM  | 9h       | UX audits—Patreon & Ghost (non-dev) | UX audits of Patreon and Ghost: captured screenshots, annotated them, proposed recommendations, and wrote up the report. No code shipped. |
-| 2026-05-18 2:28 AM  | 1h 30m   | Site reorg and write-ups published | Turned audit content into a multi-page site: Patreon direct messaging and Ghost onboarding write-ups from Notion export, optimized images, new sitemap (`/onboarding-patreon/`, `/messaging-ghost/`, `/appendix/` with fee calculator and Redditizer). Unified layout and typography for write-up pages. |
-| 2026-05-18 4:44 AM  | 2h 16m   | Visual polish and appendix hub | Launch-ready pass on the whole site: home directory with dithered hero thumbs (duotone + accent hover), shared toolbar/breadcrumbs/footer, tabbed **Appendix** hub (tools gallery, Redditizer QA notes, Patreon audit fragments). Write-up image lightbox and carousels (`prose-images.js`), hero image pipeline (`optimize-hero-images.mjs`), full-res Patreon annotations, and build fragments for regenerating pages from HTML sources. |
+| Time (PT)    | Duration | Milestone                             | What was built (machine-assisted)                                                                                                                                                                                                                                                           |
+| ------------ | -------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Sat 7:00pm   | 6h       | UX audits—Patreon & Ghost (non-dev) | UX audits of Patreon and Ghost: captured screenshots, annotated them, proposed recommendations, and wrote up the report. No code shipped. |
+| Sat 9:06pm   | 52m      | Project setup and reference docs      | Started the project and a bare-bones web page. Imported Reddit’s official style guide, trimmed it for use, organized it under `/docs/`, and added a short scoring rubric (how “good” the writing is on clarity, tone, and similar dimensions).                                              |
+| Sat 9:56pm   | 50m      | Working prototype (Google AI Studio)  | First usable version of the app: paste product copy in the browser, run an analysis, and get structured feedback—summary, rubric scores, flagged issues, and suggested rewrites—powered by Google’s AI. Includes setup instructions so the project can be run locally.                      |
+| Sat 10:39pm  | 43m      | Screenshot text extraction and polish | Upload, paste, or drag screenshots to pull text into the review box—using AI vision for accurate reading, with basic OCR as a backup if API limits kick in. Fixed Google API setup and quota handling; refined the results UI (including suggested rewrites). Prototype working end-to-end. |
+| Sun 9:44am   | 4h 6m    | Exercises hub and Ghost Fees calculator | Reorganized into a small multi-page site (“Exercises for Reddit”) with a home directory. Moved Redditizer to `/redditizer`. Built Ghost Fees: an interactive calculator that compares Ghost and Substack take-home pay from audience size, paid subscribers, subscription price, and Ghost plan tier (Starter, Publisher, Business), including monthly vs annual billing and tiered pricing. |
+| Sun 11:07am  | 45m      | Changelog page | Project diary at `/changelog/`, rendered from `DIARY.md` (edit markdown, page updates in dev). Footer link on the home page. |
+| Sun 8:28pm   | 1h 30m   | Site reorg and write-ups published | Turned audit content into a multi-page site: Patreon direct messaging and Ghost onboarding write-ups from Notion export, optimized images, new sitemap (`/onboarding-patreon/`, `/messaging-ghost/`, `/appendix/` with fee calculator and Redditizer). Unified layout and typography for write-up pages. |
+| Mon 2:44am   | 2h 16m   | Visual polish and appendix hub | Launch-ready pass on the whole site: home directory with dithered hero thumbs (duotone + accent hover), shared toolbar/breadcrumbs/footer, tabbed Appendix hub (tools gallery, Redditizer QA notes, Patreon audit fragments). Write-up image lightbox and carousels (`prose-images.js`), hero image pipeline (`optimize-hero-images.mjs`), full-res Patreon annotations, and build fragments for regenerating pages from HTML sources. |
+| Mon 4:30am   | 1h 46m   | Deploy | Site deployed. **Pencils down!** |
 
-
-**Total time** 20h 2m  
-Sat night—10pm to 1am  
-Sun day—12pm to 4pm  
-Sun eve (non-dev)—4pm to 1am  
-Sun night (build + polish)—1am to 4:45am
-
-*Durations are estimates from Cursor prompts/sessions (Vite cleanup, style-guide trimming, rubric conversion, planning + full-stack build) and time between commits. They include active prompting and agent work, not idle time.*
-
----
-
-*Add new rows at the bottom as you ship. Use `git log --reverse --format='%ci %s'` for commit times, or record manual milestones (e.g. first successful demo, deploy) with the local PT clock.*
+*Durations are estimates from Cursor prompt sessions and timestamped by commits, with idle time removed.*

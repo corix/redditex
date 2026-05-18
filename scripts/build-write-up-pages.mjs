@@ -35,6 +35,10 @@ function polish(html) {
       /<strong>Redditizer<\/strong>/g,
       '<a href="/appendix/redditizer/"><strong>Redditizer</strong></a>',
     )
+    .replace(
+      /\(see notes\)/gi,
+      '(see <a href="/appendix/#patreon-dms">Notes</a>)',
+    )
     .replace(/<script src="https:\/\/cdnjs\.cloudflare\.com[^>]*><\/script>/gi, '')
     .replace(/<link[^>]*prism[^>]*>/gi, '')
     .replace(/<\/p><\/div><\/aside>/g, '</p></aside>')
@@ -240,7 +244,7 @@ function contentShell({
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>${title === 'Exercises for Reddit' ? title : `${title}—Exercises for Reddit`}</title>
+    <title>${title === 'Exercises for Reddit' ? title : `${title} · Exercises for Reddit`}</title>
     ${stylesheets}
     ${headExtras}
   </head>
@@ -454,7 +458,7 @@ function appendixPageShell({ panels, nav, tabs }) {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Appendix—Exercises for Reddit</title>
+    <title>Appendix · Exercises for Reddit</title>
     <link rel="stylesheet" href="/src/site.css" />
     <link rel="stylesheet" href="/src/prose.css" />
     <link rel="stylesheet" href="/src/appendix.css" />
