@@ -10,7 +10,7 @@ export default defineConfig({
         messagingGhost: resolve(__dirname, 'messaging-ghost/index.html'),
         appendix: resolve(__dirname, 'appendix/index.html'),
         feeCalculator: resolve(__dirname, 'appendix/fee-calculator/index.html'),
-        redditizer: resolve(__dirname, 'appendix/redditizer/index.html'),
+        redditex: resolve(__dirname, 'appendix/redditizer/index.html'),
         changelog: resolve(__dirname, 'changelog/index.html'),
       },
     },
