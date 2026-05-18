@@ -1,5 +1,16 @@
+/* Simple palette—isolated from site-wide pop colors */
 .ghostfees-layout {
   max-width: 960px;
+  --bg: #f8f9fa;
+  --surface: #ffffff;
+  --text: #1a1a1b;
+  --text-muted: #576f76;
+  --border: #e5e8eb;
+  --accent: #ff4500;
+  --accent-hover: #e03d00;
+  --accent-teal: #ff4500;
+  --accent-teal-hover: #e03d00;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 .main-columns {

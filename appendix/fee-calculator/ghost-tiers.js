@@ -1,5 +1,5 @@
 // Ghost(Pro) Starter, Publisher + Business tiers (USD/mo displayed rate).
-// verifiedDate: 2026-05-17 — cross-check https://ghost.org/pricing/ member slider.
+// verifiedDate: 2026-05-17—cross-check https://ghost.org/pricing/ member slider.
 
 /** Starter is capped at 1,000 registered members on Ghost(Pro). */
 export const STARTER_MAX_MEMBERS = 1_000

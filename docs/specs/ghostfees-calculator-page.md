@@ -1,6 +1,6 @@
 > Client-side Ghost vs Substack pricing calculator at [`/ghost-fees/`](/ghost-fees/). Side-by-side summary cards, break-even callouts, and contextual **Findings**—no chart in the shipped UI.
 
-# Ghost Fees — pricing calculator
+# Ghost Fees—pricing calculator
 
 **URL:** [`/ghost-fees/`](../../ghost-fees/index.html) (Vite entry `ghostFees` in [`vite.config.js`](../../vite.config.js))
 
@@ -37,7 +37,7 @@ Defaults: 1,000 audience, one tier with 100 paid subs at $3/mo, Publisher, annua
 Side-by-side **Substack** and **Ghost** cards at current inputs:
 
 - Gross revenue, fee breakdown (platform / hosting / Stripe), **Income** (before taxes) monthly and annual
-- **Winner badge** on the higher take-home card (e.g. `⭐️ Winner — $51/mo ($607/yr) more`)
+- **Winner badge** on the higher take-home card (e.g. `⭐️ Winner—$51/mo ($607/yr) more`)
 - Ghost card embeds plan + billing controls and tier readout (plan name, hosting $/mo, member band)
 
 **Ghost-only callouts** (when applicable):
@@ -124,7 +124,7 @@ The sections below document the **initial build plan** at implementation time. P
 
 Build `/ghostfees/` as a static, client-only page (no API) that models [Ghost vs Substack](https://ghost.org/vs/substack/) economics using [Ghost(Pro) pricing](https://ghost.org/pricing/) and [Substack’s fee structure](https://support.substack.com/hc/en-us/articles/360037607131-How-much-does-Substack-cost).
 
-### UX (original — included chart)
+### UX (original—included chart)
 
 ```mermaid
 flowchart TB
@@ -155,7 +155,7 @@ flowchart TB
 - Substack: 10% platform + Stripe (2.9% + $0.30/txn + 0.7% billing) → **take-home**
 - Delta (annualized) vs the other platform
 
-### Chart specification (original — deprecated)
+### Chart specification (original—deprecated)
 
 **Chart (per original preference)**
 
@@ -171,7 +171,7 @@ flowchart TB
 - Y-axis below zero when `net = gross - fees` is negative (e.g. Business at low paying counts)
 - Optional “journey” X-scale (equal width for 0–10, 10–100, 100–max paying subs) and fixed-list vs growing-list modes
 
-**Chart implementation (original — vanilla SVG)**
+**Chart implementation (original—vanilla SVG)**
 
 - No new npm dependencies
 - `chart.js` responsibilities:
@@ -182,7 +182,7 @@ flowchart TB
 
 **Toggle behavior (original):** switching Ghost ↔ Substack re-rendered the chart with that platform’s fee function; summary cards always showed **both** for comparison.
 
-### Pricing model (original — simplified tiers)
+### Pricing model (original—simplified tiers)
 
 #### Substack
 
@@ -199,9 +199,9 @@ substackNet = gross - substackFees
 
 - **0%** platform fee on paid subscriptions (Publisher+)
 - Flat **Ghost(Pro)** hosting by tier (yearly-equivalent monthly rates):
-  - Starter **$18**/mo — no paid subscriptions (disabled in UI when monetizing)
-  - Publisher **$29**/mo — up to **1,000** members
-  - Business **$199**/mo — up to **10,000** members
+  - Starter **$18**/mo—no paid subscriptions (disabled in UI when monetizing)
+  - Publisher **$29**/mo—up to **1,000** members
+  - Business **$199**/mo—up to **10,000** members
 - Stripe per charge: **2.9% + $0.30**
 
 ```js
@@ -222,17 +222,17 @@ ghostNet = gross - ghostFees
 | `ghostfees/index.html` | Layout: nav, inputs, toggle, chart SVG container, summary, sources footer |
 | `ghostfees/main.js` | Wire inputs, recompute, render chart + summaries |
 | `ghostfees/pricing.js` | Pure functions + constants (testable, no DOM) |
-| `ghostfees/chart.js` | SVG stacked-area renderer (no chart library) — **removed** |
+| `ghostfees/chart.js` | SVG stacked-area renderer (no chart library)—**removed** |
 | `ghostfees/ghostfees.css` | Page layout, form, chart colors, toggle |
 
 ### UI sections (original)
 
-1. **Header** — title, short blurb, link to Ghost comparison
-2. **Calculator** — number inputs with sensible defaults
-3. **Platform toggle** — segmented control: Ghost \| Substack
-4. **Chart** — stacked area + legend (Take-home / Fees) — **removed**
-5. **Summary cards** — two columns at current inputs: gross, fee breakdown lines, net monthly + annual
-6. **Assumptions footnote** — cite sources, note Stripe-only model, Apple IAP excluded, Ghost tier limits, yearly Ghost rates
+1. **Header**—title, short blurb, link to Ghost comparison
+2. **Calculator**—number inputs with sensible defaults
+3. **Platform toggle**—segmented control: Ghost \| Substack
+4. **Chart**—stacked area + legend (Take-home / Fees)—**removed**
+5. **Summary cards**—two columns at current inputs: gross, fee breakdown lines, net monthly + annual
+6. **Assumptions footnote**—cite sources, note Stripe-only model, Apple IAP excluded, Ghost tier limits, yearly Ghost rates
 
 ### Testing (original)
 

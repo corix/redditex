@@ -110,7 +110,7 @@ export function computeGhostFromTiers(
 ) {
   const paying = totalPayingCount(paidTiers)
   const tier = ghostHostingMonthly(totalMembers, billingPeriod, plan)
-  /** Ghost Starter has no paid membership tiers — hosting only. */
+  /** Ghost Starter has no paid membership tiers—hosting only. */
   const noPaidMemberships = plan === 'starter'
   const gross = noPaidMemberships || paying <= 0 ? 0 : grossFromPaidTiers(paidTiers)
   const stripe = noPaidMemberships ? 0 : ghostStripeFeesFromPaidTiers(paidTiers)

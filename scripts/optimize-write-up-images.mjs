@@ -38,10 +38,15 @@ function slugFor(filename) {
 }
 
 function maxWidthFor(filename) {
-  if (filename.startsWith('patreon-annotated')) return 1600
+  if (filename.startsWith('patreon-annotated')) return 2560
   if (filename.startsWith('screencapture-')) return 1400
   if (filename.endsWith('.jpg')) return 1400
   return 1200
+}
+
+function webpOptionsFor(filename) {
+  if (filename.startsWith('patreon-annotated')) return { quality: 90, effort: 6 }
+  return { quality: 82 }
 }
 
 fs.mkdirSync(outDir, { recursive: true })
@@ -68,7 +73,7 @@ for (const file of fs.readdirSync(srcDir)) {
   if (outPath.endsWith('.jpg')) {
     await pipeline.jpeg({ quality: 85, progressive: true }).toFile(outPath)
   } else {
-    await pipeline.webp({ quality: 82 }).toFile(outPath)
+    await pipeline.webp(webpOptionsFor(file)).toFile(outPath)
   }
 
   const outBase = path.basename(outPath)

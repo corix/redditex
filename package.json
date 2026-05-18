@@ -9,10 +9,11 @@
     "dev:server": "node server/index.js",
     "build": "vite build",
     "preview": "vite preview",
+    "hero:images": "node scripts/optimize-hero-images.mjs",
     "write-ups:images": "node scripts/optimize-write-up-images.mjs",
     "write-ups:split": "node scripts/split-notion-export.mjs",
     "write-ups:pages": "node scripts/build-write-up-pages.mjs",
-    "write-ups:build": "pnpm run write-ups:images && pnpm run write-ups:split && pnpm run write-ups:pages"
+    "write-ups:build": "pnpm run hero:images && pnpm run write-ups:images && pnpm run write-ups:split && pnpm run write-ups:pages"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.39.0",

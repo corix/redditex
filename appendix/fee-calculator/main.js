@@ -1,4 +1,7 @@
 import '../../src/site.css'
+import { SITE_FOOTER } from '../../src/site-footer.js'
+import { breadcrumb } from '../../src/site-breadcrumb.js'
+import { siteToolbar } from '../../src/site-toolbar.js'
 import './ghostfees.css'
 import {
   computeSnapshot,
@@ -201,13 +204,13 @@ function renderSummaryHtml(
   if (ghostWins || substackWins) {
     const advantage = Math.abs(delta)
     const advantageAnnual = advantage * 12
-    winnerTitleSuffix = ` <span class="winner-badge">⭐️ Winner — ${formatUsd(advantage)}/mo (${formatUsd(advantageAnnual)}/yr) more</span>`
+    winnerTitleSuffix = ` <span class="winner-badge">⭐️ Winner—${formatUsd(advantage)}/mo (${formatUsd(advantageAnnual)}/yr) more</span>`
   }
 
   const tierReadoutHtml = ghost.tier.isUnavailable
-    ? `<strong>${ghostPlanTitle}</strong> — ${ghost.tier.bandLabel}. Choose Publisher or Business for larger lists.`
+    ? `<strong>${ghostPlanTitle}</strong>—${ghost.tier.bandLabel}. Choose Publisher or Business for larger lists.`
     : ghost.tier.isCustom
-      ? `<strong>Custom</strong> — ${ghost.tier.bandLabel}. Contact Ghost for pricing above 100k members.`
+      ? `<strong>Custom</strong>—${ghost.tier.bandLabel}. Contact Ghost for pricing above 100k members.`
       : `<strong>${ghostPlanTitle}</strong><br /><strong>${formatUsd(ghost.hosting)}/mo</strong> ${billingLabel} · ${ghost.tier.bandLabel}`
 
   return {
@@ -389,7 +392,13 @@ function init() {
 
   app.innerHTML = `
     <div class="site-layout ghostfees-layout">
-      <nav class="site-nav"><a href="/appendix/">← Appendix</a> · <a href="/">Home</a></nav>
+      ${siteToolbar({
+        breadcrumb: breadcrumb([
+          { href: '/', label: 'Home' },
+          { href: '/appendix/', label: 'Appendix' },
+          { label: 'Fee calculator' },
+        ]),
+      })}
 
       <header class="site-header">
         <h1>Ghost Fees</h1>
@@ -435,6 +444,7 @@ function init() {
           Apple IAP not included.
         </p>
       </footer>
+      ${SITE_FOOTER}
     </div>
   `
 

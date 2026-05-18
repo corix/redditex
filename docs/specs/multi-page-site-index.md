@@ -12,9 +12,9 @@
 
 ```mermaid
 flowchart LR
-  home["/ — Exercises for Reddit"]
-  redditizer["/redditizer — UX copy checker"]
-  ghostfees["/ghostfees — Coming soon"]
+  home["/—Exercises for Reddit"]
+  redditizer["/redditizer—UX copy checker"]
+  ghostfees["/ghostfees—Coming soon"]
   home --> redditizer
   home --> ghostfees
 ```
@@ -42,7 +42,7 @@ src/
 netlify.toml               # new
 ```
 
-**[`vite.config.js`](vite.config.js)** — add `build.rollupOptions.input`:
+**[`vite.config.js`](vite.config.js)**—add `build.rollupOptions.input`:
 
 ```js
 import { resolve } from 'node:path'
@@ -60,26 +60,26 @@ Keep existing `server.proxy` for `/api` so Redditizer still works in local dev f
 
 ## Page content
 
-### 1. Landing — [`index.html`](index.html) (new root)
+### 1. Landing—[`index.html`](index.html) (new root)
 
 - `<title>Exercises for Reddit</title>`
 - Minimal markup: site title, one-line intro, two linked cards:
-  - **Redditizer** — “Crude prototype of an LLM-based quality checker for UI strings” → `/redditizer/`
-  - **Ghostfees** — “Compare Ghost.org and Substack pricing (calculator & graph coming soon)” → `/ghostfees/`
+  - **Redditizer**—“Crude prototype of an LLM-based quality checker for UI strings” → `/redditizer/`
+  - **Ghostfees**—“Compare Ghost.org and Substack pricing (calculator & graph coming soon)” → `/ghostfees/`
 - Link [`src/site.css`](src/site.css) only (no JS required).
 
 Reuse design tokens from [`src/style.css`](src/style.css) (`--bg`, `--accent`, `--text-muted`, etc.) so the home feels consistent with Redditizer without importing the full Redditizer stylesheet.
 
-### 2. Redditizer — [`redditizer/index.html`](redditizer/index.html)
+### 2. Redditizer—[`redditizer/index.html`](redditizer/index.html)
 
 - Move current root [`index.html`](index.html) here verbatim except:
   - Add a small top nav: `← Exercises for Reddit` linking to `/`
-  - Optionally tweak `<title>` to stay “Redditizer — UX copy review”
+  - Optionally tweak `<title>` to stay “Redditizer—UX copy review”
 - Script stays `type="module" src="/src/main.js"` (root-absolute path works in Vite MPA).
 
 **Small UI tweak in [`src/main.js`](src/main.js):** prepend the back link in the header block (or add a `<nav class="site-nav">` above `.layout`) so it appears on the live app without duplicating HTML in two places—prefer editing `main.js` innerHTML once rather than maintaining nav in both HTML and JS.
 
-### 3. Ghostfees stub — [`ghostfees/index.html`](ghostfees/index.html)
+### 3. Ghostfees stub—[`ghostfees/index.html`](ghostfees/index.html)
 
 - Same nav back to `/`
 - Heading **Ghostfees**, subtitle describing the planned feature (Ghost vs Substack pricing, reader count, subscriber revenue, interactive graph)

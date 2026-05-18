@@ -4,7 +4,7 @@ UX writing audits and interactive prototypes. The home page links to write-ups a
 
 | Path | Project |
 |------|---------|
-| `/` | Home — write-up index |
+| `/` | Home—write-up index |
 | `/onboarding-patreon/` | Patreon direct messaging teardown |
 | `/messaging-ghost/` | Ghost.org onboarding audit |
 | `/appendix/` | Appendix notes + tool links |
@@ -26,8 +26,8 @@ Proofreads product copy against Reddit's style guide and UX writing rubric in [`
 
 2. Choose a provider in `.env`:
 
-   - `LLM_PROVIDER=anthropic` — set `ANTHROPIC_API_KEY`
-   - `LLM_PROVIDER=google` — set `GOOGLE_API_KEY`
+   - `LLM_PROVIDER=anthropic`—set `ANTHROPIC_API_KEY`
+   - `LLM_PROVIDER=google`—set `GOOGLE_API_KEY`
 
    OpenAI and Grok are not supported.
 
@@ -78,7 +78,7 @@ Static pages deploy as-is. Legacy URLs `/redditizer/` and `/ghost-fees/` redirec
 ```json
 {
   "text": "Copy to review",
-  "context": "optional — e.g. button label"
+  "context": "optional—e.g. button label"
 }
 ```
 

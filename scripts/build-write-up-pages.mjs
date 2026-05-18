@@ -1,16 +1,13 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { breadcrumb } from '../src/site-breadcrumb.js'
+import { SITE_FOOTER } from '../src/site-footer.js'
+import { siteToolbar } from '../src/site-toolbar.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const root = path.resolve(__dirname, '..')
 const fragDir = path.join(root, 'scripts', '_fragments')
-
-const SITE_FOOTER = `
-      <footer class="site-footer">
-        <a href="/changelog/">Changelog</a>
-        <a href="/">Home</a>
-      </footer>`
 
 function polish(html) {
   return html
@@ -24,7 +21,15 @@ function polish(html) {
     .replace(/\/ghost-fees\//g, '/appendix/fee-calculator/')
     .replace(
       /<strong>\/ghost-fees\/<\/strong>/g,
-      '<a href="/appendix/fee-calculator/">/appendix/fee-calculator/</a>',
+      '<a href="/appendix/fee-calculator/"><strong>Ghost Fees</strong></a>',
+    )
+    .replace(
+      /live at <strong>\/appendix\/fee-calculator\/<\/strong>/g,
+      'live at <a href="/appendix/fee-calculator/"><strong>Ghost Fees</strong></a>',
+    )
+    .replace(
+      /live at <a href="\/appendix\/fee-calculator\/">\/appendix\/fee-calculator\/<\/a>/g,
+      'live at <a href="/appendix/fee-calculator/"><strong>Ghost Fees</strong></a>',
     )
     .replace(
       /<strong>Redditizer<\/strong>/g,
@@ -35,21 +40,179 @@ function polish(html) {
     .replace(/<\/p><\/div><\/aside>/g, '</p></aside>')
 }
 
-function breadcrumb(items) {
-  const parts = items.map((item, i) => {
-    if (i === items.length - 1) {
-      return `<span class="site-nav__current">${item.label}</span>`
-    }
-    return `<a href="${item.href}">${item.label}</a>`
-  })
-  return `<nav class="site-nav" aria-label="Breadcrumb">${parts.join('<span class="site-nav__sep">/</span>')}</nav>`
+/** Notion exports one <li> per <ul>; merge siblings and place lists between paragraphs. */
+function mergeBulletedLists(html) {
+  const singleItemUl = /<ul class="bulleted-list"><li>([\s\S]*?)<\/li><\/ul>/g
+
+  function mergeRun(run) {
+    const items = [...run.matchAll(singleItemUl)]
+    if (items.length === 0) return run
+    if (items.length === 1) return items[0][0]
+    const lis = items.map((m) => `<li>${m[1]}</li>`).join('')
+    return `<ul class="bulleted-list">${lis}</ul>`
+  }
+
+  let out = html.replace(/<div class="indented">([\s\S]*?)<\/div>/g, (_, inner) => mergeRun(inner))
+
+  out = out.replace(
+    /(<p><strong>In summary:<\/strong><\/p>)(\s*(?:<ul class="bulleted-list"><li>[\s\S]*?<\/li><\/ul>\s*)+)/,
+    (_, lead, run) => `${lead}${mergeRun(run)}`,
+  )
+
+  out = out.replace(
+    /<p>([\s\S]*?)(?:<aside class="prose-aside">)?(<ul class="bulleted-list">[\s\S]*?<\/ul>)(?:<\/aside>)?<\/p>/g,
+    '<p>$1</p>$2',
+  )
+
+  out = out.replace(/<aside class="prose-aside">([\s\S]*?)<\/aside>/g, '$1')
+
+  return out
 }
 
-function contentShell({ title, breadcrumbItems, headerTitle, headerLead, main }) {
-  const nav =
-    breadcrumbItems.length > 0
-      ? breadcrumb(breadcrumbItems)
-      : '<nav class="site-nav" aria-label="Site"><span class="site-nav__current">Exercises for Reddit</span></nav>'
+const PROSE_IMAGES_SCRIPT = '<script type="module" src="/src/prose-images.js"></script>'
+
+const HERO_THUMBS = {
+  ghost: '/assets/hero/thumbs/ghost-homepage-short.webp',
+  patreon: '/assets/hero/thumbs/patreon-screen-grid.webp',
+  fees: '/assets/hero/thumbs/ghost-fees.webp',
+}
+
+const HERO_IMAGES = {
+  'messaging-ghost/index.html': {
+    src: '/assets/hero/ghost-homepage-short.webp',
+    alt: 'Ghost.org marketing homepage',
+    leadCrop: true,
+    leadCropTop: true,
+  },
+  'onboarding-patreon/index.html': {
+    src: '/assets/hero/patreon-screen-grid.webp',
+    alt: 'Grid of Patreon mobile app screenshots',
+    leadCrop: true,
+  },
+}
+
+function proseFigure({ src, alt, lead = false, leadCrop = false, leadCropTop = false }) {
+  const klass = [
+    'image',
+    lead && 'image--lead',
+    leadCrop && 'image--lead-cover',
+    leadCropTop && 'image--lead-cover-top',
+  ]
+    .filter(Boolean)
+    .join(' ')
+  return `<figure class="${klass}"><img src="${src}" alt="${alt}" loading="lazy"></figure>`
+}
+
+function injectLeadFigure(body, hero) {
+  if (!hero) return body
+  return `${proseFigure({ ...hero, lead: true })}${body}`
+}
+
+function mergeExamplesGallery(body) {
+  return body.replace(
+    /(<p>A few examples:<\/p>)(\s*(?:<ul class="bulleted-list"><li>[\s\S]*?<\/li><\/ul>\s*)+)(?=\s*<p>After signup)/,
+    (_, lead, run) => {
+      const items = [...run.matchAll(/<ul class="bulleted-list"><li>([\s\S]*?)<\/li><\/ul>/g)]
+      const lis = items.map((m) => `<li class="prose-gallery__slide">${m[1]}</li>`).join('')
+      return `${lead}<ul class="prose-gallery bulleted-list" data-prose-gallery>${lis}</ul>`
+    },
+  )
+}
+
+const GHOST_PRICING_COMPARISON = `<figure class="image-compare" data-image-compare style="--compare: 75%">
+<div class="image-compare__stage">
+<img class="image-compare__back" src="/assets/write-ups/pricing-page-alt-1k.webp" alt="Revised copy—lowest tier" loading="lazy" decoding="async">
+<div class="image-compare__front" aria-hidden="true">
+<img src="/assets/write-ups/pricing-page-original.webp" alt="" loading="lazy" decoding="async">
+</div>
+<div class="image-compare__divider" aria-hidden="true"></div>
+<button type="button" class="image-compare__handle" aria-label="Drag to compare original and revised pricing copy" aria-valuemin="0" aria-valuemax="100" aria-valuenow="75" role="slider"></button>
+</div>
+<figcaption>Drag the handle to compare. <strong>Original:</strong> problematic “No payment fees” claim. <strong>Revised:</strong> lowest-tier copy.</figcaption>
+</figure>`
+
+const GHOST_PRICING_COLUMN_LIST =
+  /<div class="column-list">[\s\S]*?pricing-page-original\.webp[\s\S]*?<\/div>\s*<\/div>/
+
+function patchGhostArticle(body) {
+  const feesShot = proseFigure({
+    src: '/assets/hero/ghost-fees.webp',
+    alt: 'Ghost vs Substack fee calculator',
+  })
+  let out = mergeExamplesGallery(
+    body.replace(
+      /(<p>At that point, I concluded the pricing structure was likely too complex[\s\S]*?pricing checker, live at <a href="\/appendix\/fee-calculator\/">[^<]*<\/a>\.<\/p>)/,
+      `$1${feesShot}`,
+    ),
+  )
+  if (GHOST_PRICING_COLUMN_LIST.test(out) || out.includes('class="image-compare"')) {
+    out = out.replace(GHOST_PRICING_COLUMN_LIST, GHOST_PRICING_COMPARISON)
+    out = out.replace(
+      /<figure class="image-compare" data-image-compare[^>]*>[\s\S]*?<\/figure>/,
+      GHOST_PRICING_COMPARISON,
+    )
+  } else if (!out.includes('pricing-page-original.webp')) {
+    out = out.replace(
+      /(<p>In the interest of saving myself time[\s\S]*?tokens are limited\.\)<\/p>)/,
+      `$1${GHOST_PRICING_COMPARISON}`,
+    )
+  }
+  return out
+}
+
+const THUMB_SIZE = { width: 120, height: 80 }
+const HOME_THUMB_SIZE = { width: 120, height: 96 }
+
+function thumbAccentSrc(thumb) {
+  return thumb.replace(/\.webp$/i, '-accent.webp')
+}
+
+function directoryItem({
+  href,
+  title,
+  description,
+  thumb,
+  thumbAlt,
+  fetchPriority,
+  thumbSize = THUMB_SIZE,
+  ditherHover = false,
+}) {
+  const loadAttrs = fetchPriority
+    ? ` fetchpriority="${fetchPriority}"`
+    : ' loading="lazy"'
+  const lazyAttrs = fetchPriority ? '' : ' loading="lazy"'
+  const thumbHtml = thumb
+    ? ditherHover
+      ? `<span class="directory-item__thumb-stack">
+              <img class="directory-item__thumb" src="${thumb}" alt="${thumbAlt ?? ''}" width="${thumbSize.width}" height="${thumbSize.height}" decoding="async"${loadAttrs}>
+              <img class="directory-item__thumb directory-item__thumb--accent" src="${thumbAccentSrc(thumb)}" alt="" width="${thumbSize.width}" height="${thumbSize.height}" decoding="async"${lazyAttrs} aria-hidden="true">
+            </span>`
+      : `<img class="directory-item__thumb" src="${thumb}" alt="${thumbAlt ?? ''}" width="${thumbSize.width}" height="${thumbSize.height}" decoding="async"${loadAttrs}>`
+    : ''
+  const itemClass = thumb ? 'directory-item' : 'directory-item directory-item--text-only'
+  return `<li class="${itemClass}">
+            <a href="${href}">
+              ${thumbHtml}
+              <div class="directory-item__body">
+                <h2>${title}</h2>
+                <p>${description}</p>
+              </div>
+            </a>
+          </li>`
+}
+
+function contentShell({
+  title,
+  breadcrumbItems = [],
+  headerTitle,
+  headerLead,
+  main,
+  scripts = [],
+  prose = true,
+  home = false,
+}) {
+  const nav = breadcrumbItems.length > 0 ? breadcrumb(breadcrumbItems) : ''
+  const toolbar = siteToolbar({ breadcrumb: nav || undefined })
 
   const header = headerTitle
     ? `<header class="site-header">
@@ -58,26 +221,41 @@ function contentShell({ title, breadcrumbItems, headerTitle, headerLead, main })
       </header>`
     : ''
 
+  const stylesheets = prose
+    ? `<link rel="stylesheet" href="/src/site.css" />
+    <link rel="stylesheet" href="/src/prose.css" />`
+    : `<link rel="stylesheet" href="/src/site.css" />`
+
+  const headExtras = prose
+    ? ''
+    : `<link rel="preload" as="image" href="${HERO_THUMBS.ghost}" type="image/webp" fetchpriority="high">`
+
+  const bodyScripts = prose ? [...scripts, PROSE_IMAGES_SCRIPT] : scripts
+  const layoutClass = home
+    ? 'site-layout site-layout--wide site-layout--home'
+    : 'site-layout site-layout--wide'
+
   return `<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>${title === 'Exercises for Reddit' ? title : `${title} — Exercises for Reddit`}</title>
-    <link rel="stylesheet" href="/src/site.css" />
-    <link rel="stylesheet" href="/src/prose.css" />
+    <title>${title === 'Exercises for Reddit' ? title : `${title}—Exercises for Reddit`}</title>
+    ${stylesheets}
+    ${headExtras}
   </head>
   <body>
-    <motion class="site-layout site-layout--wide">
-      ${nav}
+    <motion class="${layoutClass}">
+      ${toolbar}
       ${header}
       <main class="site-main">
         ${main}
       </main>
       ${SITE_FOOTER}
     </motion>
+    ${bodyScripts.join('\n    ')}
   </body>
-</html>`.replace(/<motion class="/g, '<div class="').replace(/<\/motion>/g, '')
+</html>`.replace(/<motion class="/g, '<div class="').replace(/<\/motion>/g, '</div>')
 }
 
 /** Pull first h2 + optional tagline em from article body into page header. */
@@ -101,89 +279,293 @@ function extractArticleHeader(html, fallbackTitle) {
   return { title, lead, body: body.trim() }
 }
 
-function writeArticlePage(relPath, pageTitle, breadcrumbLabel, fragment) {
-  const polished = polish(fragment)
-  const { title, lead, body } = extractArticleHeader(polished, pageTitle)
+const APPENDIX_TAB_SLUGS = {
+  Tools: 'tools',
+  'Platforms considered': 'platforms',
+  'Redditizer QA test': 'redditizer-qa',
+  'Patreon DMs—all missing features': 'patreon-dms',
+}
+
+function appendixTabSlug(title) {
+  const normalized = title.replace(/\u00a0/g, ' ').replace(/\s+/g, ' ').trim()
+  if (APPENDIX_TAB_SLUGS[normalized]) return APPENDIX_TAB_SLUGS[normalized]
+  if (normalized.startsWith('Patreon DMs')) return 'patreon-dms'
+  return normalized
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
+}
+
+function splitAppendixSections(html) {
+  const re = /<h3[^>]*>([\s\S]*?)<\/h3>/gi
+  const matches = [...html.matchAll(re)]
+  if (matches.length === 0) return [{ title: 'Notes', body: html.trim() }]
+
+  return matches.map((match, i) => {
+    const title = match[1].replace(/<[^>]+>/g, '').trim()
+    const start = match.index + match[0].length
+    const end = i + 1 < matches.length ? matches[i + 1].index : html.length
+    return { title, body: html.slice(start, end).trim() }
+  })
+}
+
+function formatRedditizerQaSection(html) {
+  const figureRe = /<figure class="image">[\s\S]*?<\/figure>/g
+  const figures = [...html.matchAll(figureRe)].map((m) => m[0])
+  if (figures.length === 0) return html
+
+  let remaining = html
+  const chunks = []
+  for (const figure of figures) {
+    const idx = remaining.indexOf(figure)
+    chunks.push(remaining.slice(0, idx))
+    remaining = remaining.slice(idx + figure.length)
+  }
+  chunks.push(remaining)
+
+  const leadFigure = figures[0].replace(
+    '<figure class="image">',
+    '<figure class="image redditizer-qa-lead">',
+  )
+  const gridFigures = figures.slice(1)
+  const grid = gridFigures.length
+    ? `<div class="redditizer-qa-grid">\n${gridFigures.join('\n')}\n</div>`
+    : ''
+
+  return chunks[0] + leadFigure + chunks[1] + grid + chunks[figures.length]
+}
+
+const APPENDIX_TOOLS_GALLERY = `
+        <ul class="appendix-tools-gallery">
+          <li class="appendix-tools-gallery__item">
+            <figure class="appendix-tools-gallery__shot">
+              <img
+                src="/assets/hero/ghost-fees.webp"
+                alt="Ghost vs Substack fee calculator"
+                loading="lazy"
+                width="640"
+                height="400"
+              >
+            </figure>
+            <div class="appendix-tools-gallery__body">
+              <h3>Fee calculator</h3>
+              <p>Compare Ghost and Substack pricing across plans, with break-even points and tips to maximize income.</p>
+              <a class="appendix-tools-gallery__cta" href="/appendix/fee-calculator/">Yay money</a>
+            </div>
+          </li>
+          <li class="appendix-tools-gallery__item">
+            <figure class="appendix-tools-gallery__shot">
+              <img
+                src="/assets/write-ups/redditizer-screenshot-18-03.webp"
+                alt="Redditizer copy review results"
+                loading="lazy"
+                width="640"
+                height="400"
+              >
+            </figure>
+            <div class="appendix-tools-gallery__body">
+              <h3>Redditizer</h3>
+              <p>LLM-based UI writing assistant using Reddit’s guidelines and rubric. Type your words or upload a screenshot.</p>
+              <a class="appendix-tools-gallery__cta" href="/appendix/redditizer/">Say less</a>
+            </div>
+          </li>
+        </ul>`
+
+function appendixTabArticle(title, body, { proseModifier } = {}) {
+  const proseClass = proseModifier ? `prose ${proseModifier}` : 'prose'
+  return `<article class="${proseClass}"><h2>${title}</h2>${body}</article>`
+}
+
+function buildAppendixTabs(sections) {
+  const orderedSections = [...sections]
+  const platformsIdx = orderedSections.findIndex(
+    (s) => appendixTabSlug(s.title) === 'platforms',
+  )
+  if (platformsIdx >= 0) {
+    const [platforms] = orderedSections.splice(platformsIdx, 1)
+    orderedSections.push(platforms)
+  }
+
+  const tabs = [
+    {
+      id: 'tools',
+      label: 'Tools',
+      body: appendixTabArticle('Tools', APPENDIX_TOOLS_GALLERY),
+    },
+    ...orderedSections.map((section) => {
+      const id = appendixTabSlug(section.title)
+      let body = section.body
+      if (id === 'redditizer-qa') body = formatRedditizerQaSection(body)
+      return {
+        id,
+        label: section.title,
+        body: appendixTabArticle(section.title, body, {
+          proseModifier: id === 'redditizer-qa' ? 'prose--redditizer-qa' : undefined,
+        }),
+      }
+    }),
+  ]
+
+  const nav = tabs
+    .map(
+      (tab, i) => `<li role="presentation">
+          <a
+            href="#${tab.id}"
+            class="appendix-nav__link${i === 0 ? ' is-active' : ''}"
+            role="tab"
+            data-tab="${tab.id}"
+            id="tab-${tab.id}"
+            aria-controls="panel-${tab.id}"
+            aria-selected="${i === 0}"
+            tabindex="${i === 0 ? '0' : '-1'}"
+          >${tab.label}</a>
+        </li>`,
+    )
+    .join('\n')
+
+  const panels = tabs
+    .map(
+      (tab, i) => `<section
+          class="appendix-panel${i === 0 ? ' is-active' : ''}"
+          id="panel-${tab.id}"
+          data-tab="${tab.id}"
+          role="tabpanel"
+          aria-labelledby="tab-${tab.id}"
+          ${i === 0 ? '' : 'hidden'}
+        >${tab.body}</section>`,
+    )
+    .join('\n')
+
+  return { panels, nav, tabs }
+}
+
+function appendixPageShell({ panels, nav, tabs }) {
+  const tabTrail = breadcrumb(
+    [
+      { href: '/', label: 'Home' },
+      { href: '/appendix/', label: 'Appendix' },
+      { label: tabs[0].label },
+    ],
+    { currentId: 'appendix-breadcrumb-current' },
+  )
+
+  return `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Appendix—Exercises for Reddit</title>
+    <link rel="stylesheet" href="/src/site.css" />
+    <link rel="stylesheet" href="/src/prose.css" />
+    <link rel="stylesheet" href="/src/appendix.css" />
+  </head>
+  <body class="appendix-body">
+    <aside class="appendix-rail" aria-label="Appendix">
+      <div class="appendix-rail__head">
+        <p class="appendix-rail__label">Appendix</p>
+      </div>
+      <nav class="appendix-nav" aria-label="Appendix sections">
+        <ul role="tablist">${nav}</ul>
+      </nav>
+    </aside>
+    <motion class="appendix-main site-layout site-layout--wide">
+      ${siteToolbar({ breadcrumb: tabTrail })}
+      <main class="site-main">
+        <div class="appendix-panels">${panels}</div>
+      </main>
+      ${SITE_FOOTER}
+    </motion>
+    <script type="module" src="/appendix/main.js"></script>
+    ${PROSE_IMAGES_SCRIPT}
+  </body>
+</html>`.replace(/<motion class="/g, '<div class="').replace(/<\/motion>/g, '</div>')
+}
+
+function writeArticlePage(relPath, pageTitle, breadcrumbLabel, fragment, { proseModifier } = {}) {
+  let polished = polish(fragment)
+  if (relPath === 'onboarding-patreon/index.html') polished = mergeBulletedLists(polished)
+  const { title, lead, body: rawBody } = extractArticleHeader(polished, pageTitle)
+  let body = injectLeadFigure(rawBody, HERO_IMAGES[relPath])
+  if (relPath === 'messaging-ghost/index.html') body = patchGhostArticle(body)
+  const proseClass = proseModifier ? `prose ${proseModifier}` : 'prose'
   const html = contentShell({
     title: pageTitle,
-    breadcrumbItems: [
-      { href: '/', label: 'Home' },
-      { href: `/${relPath.replace(/\/index\.html$/, '')}/`, label: breadcrumbLabel },
-    ],
+    breadcrumbItems: [{ href: '/', label: 'Home' }, { label: breadcrumbLabel }],
     headerTitle: title,
     headerLead: lead,
-    main: `<article class="prose">${body}</article>`,
+    main: `<article class="${proseClass}">${body}</article>`,
   })
   const full = path.join(root, relPath)
   fs.mkdirSync(path.dirname(full), { recursive: true })
   fs.writeFileSync(full, html)
 }
 
-const hub = polish(fs.readFileSync(path.join(fragDir, 'hub.html'), 'utf8'))
 const onboarding = fs.readFileSync(path.join(fragDir, 'onboarding-patreon.html'), 'utf8')
 const messaging = fs.readFileSync(path.join(fragDir, 'messaging-ghost.html'), 'utf8')
 const appendixFrag = fs.readFileSync(path.join(fragDir, 'appendix.html'), 'utf8')
 
-writeArticlePage('onboarding-patreon/index.html', 'Patreon direct messaging', 'Patreon direct messaging', onboarding)
-writeArticlePage('messaging-ghost/index.html', 'Ghost.org onboarding', 'Ghost.org onboarding', messaging)
+const writeUpProse = { proseModifier: 'prose--write-up' }
+
+writeArticlePage(
+  'onboarding-patreon/index.html',
+  'Patreon direct messaging',
+  'Direct messaging',
+  onboarding,
+  { proseModifier: 'prose--write-up prose--patreon' },
+)
+writeArticlePage(
+  'messaging-ghost/index.html',
+  'Ghost.org onboarding',
+  'Onboarding',
+  messaging,
+  writeUpProse,
+)
 
 const appendixPolished = polish(appendixFrag)
 const appendixHeader = extractArticleHeader(appendixPolished, 'Appendix')
 
-const appendixHtml = contentShell({
-  title: 'Appendix',
-  breadcrumbItems: [
-    { href: '/', label: 'Home' },
-    { href: '/appendix/', label: 'Appendix' },
-  ],
-  headerTitle: appendixHeader.title,
-  headerLead: appendixHeader.lead,
-  main: `
-        <ul class="directory">
-          <li>
-            <a class="directory-card" href="/appendix/fee-calculator/">
-              <h2>Fee calculator</h2>
-              <p>Compare Ghost and Substack take-home pay at your list size.</p>
-            </a>
-          </li>
-          <li>
-            <a class="directory-card" href="/appendix/redditizer/">
-              <h2>Redditizer</h2>
-              <p>LLM-based quality checker for UI strings against Reddit’s style guide.</p>
-            </a>
-          </li>
-        </ul>
-        <article class="prose">${appendixHeader.body}</article>`,
-})
+const appendixSections = splitAppendixSections(appendixHeader.body)
+const { panels, nav, tabs } = buildAppendixTabs(appendixSections)
+const appendixHtml = appendixPageShell({ panels, nav, tabs })
 fs.writeFileSync(path.join(root, 'appendix/index.html'), appendixHtml)
 
 const homeHtml = contentShell({
-  title: 'Exercises for Reddit',
-  breadcrumbItems: [],
-  headerTitle: 'Exercises for Reddit',
-  headerLead: 'Small experiments and prototypes.',
+  title: 'Trying new things for Reddit’s amusement',
+  headerTitle: 'Trying new things for Reddit’s amusement',
+  headerLead: 'Small experiments, prototypes, UX audits, and recommendations',
   main: `
-        <article class="prose prose--home">${hub}</article>
         <ul class="directory">
-          <li>
-            <a class="directory-card" href="/onboarding-patreon/">
-              <h2>Patreon direct messaging</h2>
-              <p>UX teardown of Patreon DMs and mobile inbox patterns.</p>
-            </a>
-          </li>
-          <li>
-            <a class="directory-card" href="/messaging-ghost/">
-              <h2>Ghost.org onboarding</h2>
-              <p>Onboarding, signup, and pricing messaging on Ghost.</p>
-            </a>
-          </li>
-          <li>
-            <a class="directory-card" href="/appendix/">
-              <h2>Appendix</h2>
-              <p>Supporting notes, prototypes, and interactive tools.</p>
-            </a>
-          </li>
+            ${directoryItem({
+              href: '/messaging-ghost/',
+              title: 'Ghost.org onboarding',
+              description: 'Onboard and evaluate as potential viable alternative to Substack',
+              thumb: HERO_THUMBS.ghost,
+              thumbAlt: 'Ghost.org homepage',
+              fetchPriority: 'high',
+              thumbSize: HOME_THUMB_SIZE,
+              ditherHover: true,
+            })}
+            ${directoryItem({
+              href: '/onboarding-patreon/',
+              title: 'Patreon direct messaging',
+              description: 'UX teardown of Patreon DMs and mobile inbox patterns.',
+              thumb: HERO_THUMBS.patreon,
+              thumbAlt: 'Patreon mobile app screenshots',
+              thumbSize: HOME_THUMB_SIZE,
+              ditherHover: true,
+            })}
+            ${directoryItem({
+              href: '/appendix/',
+              title: 'Appendix',
+              description: 'interactive tools, quality testing, audit notes',
+              thumb: HERO_THUMBS.fees,
+              thumbAlt: 'Ghost vs Substack fee calculator',
+              thumbSize: HOME_THUMB_SIZE,
+              ditherHover: true,
+            })}
         </ul>`,
+  prose: false,
+  home: true,
 })
 fs.writeFileSync(path.join(root, 'index.html'), homeHtml)
 

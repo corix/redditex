@@ -1,3 +1,7 @@
+import { breadcrumb } from './site-breadcrumb.js'
+import { SITE_FOOTER } from './site-footer.js'
+import { siteToolbar } from './site-toolbar.js'
+import './site.css'
 import './style.css'
 import { analyzeCopy } from './api.js'
 import { extractTextFromImage, validateImageFile } from './extract.js'
@@ -13,16 +17,21 @@ const CRITERIA_ORDER = [
 const app = document.querySelector('#app')
 
 app.innerHTML = `
-  <nav class="site-nav">
-    <a href="/appendix/">← Appendix</a> · <a href="/">Home</a>
-  </nav>
-  <div class="layout">
-    <header class="header">
+  <div class="site-layout">
+    ${siteToolbar({
+      breadcrumb: breadcrumb([
+        { href: '/', label: 'Home' },
+        { href: '/appendix/', label: 'Appendix' },
+        { label: 'Redditizer' },
+      ]),
+    })}
+
+    <header class="site-header">
       <h1>Redditizer</h1>
-      <p class="subtitle">UX copy review against Reddit's style guide and 5C rubric</p>
+      <p class="site-lead">UX copy review against Reddit's style guide and 5C rubric</p>
     </header>
 
-    <main class="main">
+    <main class="site-main">
       <form id="analyze-form" class="form">
         <div class="field">
           <span class="label">Screenshot <span class="optional">(optional)</span></span>
@@ -66,6 +75,7 @@ app.innerHTML = `
 
       <section id="results" class="results" hidden aria-live="polite"></section>
     </main>
+    ${SITE_FOOTER}
   </div>
 `
 
@@ -141,7 +151,7 @@ async function runExtraction(file) {
     copyInput.value = text
     if (fallback) {
       showOcrStatus(
-        'API quota reached — used basic OCR instead. Edit the text, then Redditize.',
+        'API quota reached—used basic OCR instead. Edit the text, then Redditize.',
         'success',
       )
     } else {

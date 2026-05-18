@@ -3,46 +3,70 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Exercises for Reddit</title>
+    <title>Trying new things for Reddit’s amusement—Exercises for Reddit</title>
     <link rel="stylesheet" href="/src/site.css" />
-    <link rel="stylesheet" href="/src/prose.css" />
+    <link rel="preload" as="image" href="/assets/hero/thumbs/ghost-homepage-short.webp" type="image/webp" fetchpriority="high">
   </head>
   <body>
-    <div class="site-layout site-layout--wide">
-      <nav class="site-nav" aria-label="Site"><span class="site-nav__current">Exercises for Reddit</span></nav>
+    <div class="site-layout site-layout--wide site-layout--home">
+      <nav class="site-toolbar" aria-label="Site">
+        <div class="site-toolbar__start"><a class="site-toolbar__home" href="/">Home</a></div>
+        <div class="site-toolbar__end">
+          <a href="/changelog/">Changelog</a>
+        </div>
+      </nav>
       <header class="site-header">
-        <h1>Exercises for Reddit</h1>
-        <p class="site-lead">Small experiments and prototypes.</p>
+        <h1>Trying new things for Reddit’s amusement</h1>
+        <p class="site-lead">Small experiments, prototypes, UX audits, and recommendations</p>
       </header>
       <main class="site-main">
         
-        <article class="prose prose--home"><h1>UX writing audits and recommendations</h1><p>This is an exploration of UI surfaces for:</p><ul class="bulleted-list"><li><strong>Onboarding on </strong><strong><a href="https://ghost.org">Ghost.org</a></strong><strong> </strong>— specifically as a viable alternative to Substack for people who want to make the switch</li></ul><ul class="bulleted-list"><li><strong>Direct messaging </strong>on <strong>Patreon</strong></li></ul></article>
         <ul class="directory">
-          <li>
-            <a class="directory-card" href="/onboarding-patreon/">
-              <h2>Patreon direct messaging</h2>
-              <p>UX teardown of Patreon DMs and mobile inbox patterns.</p>
+            <li class="directory-item">
+            <a href="/messaging-ghost/">
+              <span class="directory-item__thumb-stack">
+              <img class="directory-item__thumb" src="/assets/hero/thumbs/ghost-homepage-short.webp" alt="Ghost.org homepage" width="120" height="96" decoding="async" fetchpriority="high">
+              <img class="directory-item__thumb directory-item__thumb--accent" src="/assets/hero/thumbs/ghost-homepage-short-accent.webp" alt="" width="120" height="96" decoding="async" aria-hidden="true">
+            </span>
+              <div class="directory-item__body">
+                <h2>Ghost.org onboarding</h2>
+                <p>Onboard and evaluate as potential viable alternative to Substack</p>
+              </div>
             </a>
           </li>
-          <li>
-            <a class="directory-card" href="/messaging-ghost/">
-              <h2>Ghost.org onboarding</h2>
-              <p>Onboarding, signup, and pricing messaging on Ghost.</p>
+            <li class="directory-item">
+            <a href="/onboarding-patreon/">
+              <span class="directory-item__thumb-stack">
+              <img class="directory-item__thumb" src="/assets/hero/thumbs/patreon-screen-grid.webp" alt="Patreon mobile app screenshots" width="120" height="96" decoding="async" loading="lazy">
+              <img class="directory-item__thumb directory-item__thumb--accent" src="/assets/hero/thumbs/patreon-screen-grid-accent.webp" alt="" width="120" height="96" decoding="async" loading="lazy" aria-hidden="true">
+            </span>
+              <div class="directory-item__body">
+                <h2>Patreon direct messaging</h2>
+                <p>UX teardown of Patreon DMs and mobile inbox patterns.</p>
+              </div>
             </a>
           </li>
-          <li>
-            <a class="directory-card" href="/appendix/">
-              <h2>Appendix</h2>
-              <p>Supporting notes, prototypes, and interactive tools.</p>
+            <li class="directory-item">
+            <a href="/appendix/">
+              <span class="directory-item__thumb-stack">
+              <img class="directory-item__thumb" src="/assets/hero/thumbs/ghost-fees.webp" alt="Ghost vs Substack fee calculator" width="120" height="96" decoding="async" loading="lazy">
+              <img class="directory-item__thumb directory-item__thumb--accent" src="/assets/hero/thumbs/ghost-fees-accent.webp" alt="" width="120" height="96" decoding="async" loading="lazy" aria-hidden="true">
+            </span>
+              <div class="directory-item__body">
+                <h2>Appendix</h2>
+                <p>interactive tools, quality testing, audit notes</p>
+              </div>
             </a>
           </li>
         </ul>
       </main>
-      
       <footer class="site-footer">
-        <a href="/changelog/">Changelog</a>
-        <a href="/">Home</a>
+        <p class="site-footer__credit">
+          made with moxie by <a href="https://linkedin.com/in/corij/" target="_blank" rel="noopener noreferrer">cori</a>
+          with <a href="https://cursor.com/" target="_blank" rel="noopener noreferrer">cursor</a>
+        </p>
       </footer>
+    </div>
     
   </body>
 </html>

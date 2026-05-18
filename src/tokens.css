@@ -1,21 +1,54 @@
 :root {
-  --bg: #f8f9fa;
+  /* Backgrounds */
+  --bg: #ffffff;
   --surface: #ffffff;
-  --text: #1a1a1b;
-  --text-muted: #576f76;
-  --border: #e5e8eb;
-  --accent: #ff4500;
-  --accent-hover: #e03d00;
+  --shade: #13111c;
+  --shade-raised: #1c1928;
+  --surface-hover: #f5f3fa;
+
+  /* Text */
+  --text: #121018;
+  --text-muted: #5e5868;
+  --text-subtle: #9a94a2;
+  --text-on-shade: #f4f2f8;
+  --text-muted-on-shade: #a39aad;
+
+  /* Borders */
+  --border: #e4e0ec;
+  --border-on-shade: #2e2a3d;
+
+  /* Pop accents */
+  --accent: #ff2d7a;
+  --accent-hover: #e0266c;
+  --accent-teal: #00c4b8;
+  --accent-teal-hover: #00a99e;
+
+  /* Text links (orange default → teal on hover) */
+  --link: #ff6b2b;
+  --link-hover: var(--accent-teal);
+
+  /* Marker highlights */
+  --highlight: #e8ff00;
+  --highlight-band: color-mix(in srgb, var(--highlight) 85%, #ffffff);
+  --highlight-list: #ffd0eb;
+  --highlight-priority: #b8f8ff;
+  --callout-attrib: #f23cff;
+  --highlight-ink: #121018;
+
   --radius: 8px;
-  --shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-  --shadow-hover: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --shadow: 0 1px 3px rgba(19, 17, 26, 0.1);
+  --shadow-hover: 0 4px 14px rgba(19, 17, 26, 0.12);
 
   --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial,
     sans-serif;
+  --font-serif: Charter, 'Bitstream Charter', 'Sitka Text', Cambria, Georgia, 'Times New Roman',
+    Times, serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
   --text-sm: 0.875rem;
   --text-base: 0.95rem;
+  --text-reading: 1.125rem;
+  --write-up-text-inset: clamp(1.5rem, 6vw, 4.5rem);
   --text-lg: 1.125rem;
   --text-xl: 1.35rem;
   --text-2xl: 1.75rem;

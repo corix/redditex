@@ -3,47 +3,169 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Appendix — Exercises for Reddit</title>
+    <title>Appendix—Exercises for Reddit</title>
     <link rel="stylesheet" href="/src/site.css" />
     <link rel="stylesheet" href="/src/prose.css" />
+    <link rel="stylesheet" href="/src/appendix.css" />
   </head>
-  <body>
-    <div class="site-layout site-layout--wide">
-      <nav class="site-nav" aria-label="Breadcrumb"><a href="/">Home</a><span class="site-nav__sep">/</span><span class="site-nav__current">Appendix</span></nav>
-      <header class="site-header">
-        <h1>Appendix</h1>
-        
-      </header>
+  <body class="appendix-body">
+    <aside class="appendix-rail" aria-label="Appendix">
+      <div class="appendix-rail__head">
+        <p class="appendix-rail__label">Appendix</p>
+      </div>
+      <nav class="appendix-nav" aria-label="Appendix sections">
+        <ul role="tablist"><li role="presentation">
+          <a
+            href="#tools"
+            class="appendix-nav__link is-active"
+            role="tab"
+            data-tab="tools"
+            id="tab-tools"
+            aria-controls="panel-tools"
+            aria-selected="true"
+            tabindex="0"
+          >Tools</a>
+        </li>
+<li role="presentation">
+          <a
+            href="#redditizer-qa"
+            class="appendix-nav__link"
+            role="tab"
+            data-tab="redditizer-qa"
+            id="tab-redditizer-qa"
+            aria-controls="panel-redditizer-qa"
+            aria-selected="false"
+            tabindex="-1"
+          >Redditizer QA test</a>
+        </li>
+<li role="presentation">
+          <a
+            href="#patreon-dms"
+            class="appendix-nav__link"
+            role="tab"
+            data-tab="patreon-dms"
+            id="tab-patreon-dms"
+            aria-controls="panel-patreon-dms"
+            aria-selected="false"
+            tabindex="-1"
+          >Patreon DMs—all missing features</a>
+        </li>
+<li role="presentation">
+          <a
+            href="#platforms"
+            class="appendix-nav__link"
+            role="tab"
+            data-tab="platforms"
+            id="tab-platforms"
+            aria-controls="panel-platforms"
+            aria-selected="false"
+            tabindex="-1"
+          >Platforms considered</a>
+        </li></ul>
+      </nav>
+    </aside>
+    <div class="appendix-main site-layout site-layout--wide">
+      <nav class="site-toolbar" aria-label="Site">
+        <div class="site-toolbar__start"><nav class="site-nav" aria-label="Breadcrumb"><a href="/">Home</a><span class="site-nav__sep">/</span><a href="/appendix/">Appendix</a><span class="site-nav__sep">/</span><span class="site-nav__current" id="appendix-breadcrumb-current">Tools</span></nav></div>
+        <div class="site-toolbar__end">
+          <a href="/changelog/">Changelog</a>
+        </div>
+      </nav>
       <main class="site-main">
-        
-        <ul class="directory">
-          <li>
-            <a class="directory-card" href="/appendix/fee-calculator/">
-              <h2>Fee calculator</h2>
-              <p>Compare Ghost and Substack take-home pay at your list size.</p>
-            </a>
+        <div class="appendix-panels"><section
+          class="appendix-panel is-active"
+          id="panel-tools"
+          data-tab="tools"
+          role="tabpanel"
+          aria-labelledby="tab-tools"
+          
+        ><article class="prose"><h2>Tools</h2>
+        <ul class="appendix-tools-gallery">
+          <li class="appendix-tools-gallery__item">
+            <figure class="appendix-tools-gallery__shot">
+              <img
+                src="/assets/hero/ghost-fees.webp"
+                alt="Ghost vs Substack fee calculator"
+                loading="lazy"
+                width="640"
+                height="400"
+              >
+            </figure>
+            <div class="appendix-tools-gallery__body">
+              <h3>Fee calculator</h3>
+              <p>Compare Ghost and Substack pricing across plans, with break-even points and tips to maximize income.</p>
+              <a class="appendix-tools-gallery__cta" href="/appendix/fee-calculator/">Yay money</a>
+            </div>
           </li>
-          <li>
-            <a class="directory-card" href="/appendix/redditizer/">
-              <h2>Redditizer</h2>
-              <p>LLM-based quality checker for UI strings against Reddit’s style guide.</p>
-            </a>
+          <li class="appendix-tools-gallery__item">
+            <figure class="appendix-tools-gallery__shot">
+              <img
+                src="/assets/write-ups/redditizer-screenshot-18-03.webp"
+                alt="Redditizer copy review results"
+                loading="lazy"
+                width="640"
+                height="400"
+              >
+            </figure>
+            <div class="appendix-tools-gallery__body">
+              <h3>Redditizer</h3>
+              <p>LLM-based UI writing assistant using Reddit’s guidelines and rubric. Type your words or upload a screenshot.</p>
+              <a class="appendix-tools-gallery__cta" href="/appendix/redditizer/">Say less</a>
+            </div>
           </li>
-        </ul>
-        <article class="prose"><h3>Platforms considered</h3><p><em>Direct messaging</em></p><ul class="bulleted-list"><li>Telegram, WhatsApp, Instagram, Facebook Messenger, Signal, Snap</li></ul><ul class="bulleted-list"><li>WeChat, LINE, KakaoTalk, QQ</li></ul><ul class="bulleted-list"><li><strong><span>DM as side feature</span></strong><ul class="bulleted-list"><li>Airbnb, DoorDash, <strong><span>Patreon</span></strong>, Twitch Whispers + Chatterino (audit begun, but too limited)</li></ul></li></ul><p><em>Onboarding</em></p><ul class="bulleted-list"><li>Food kits: Hello Fresh, Blue Apron, Dinnerly — via <a href="https://www.nytimes.com/wirecutter/reviews/best-meal-kit-delivery-services/">Wirecutter</a></li></ul><ul class="bulleted-list"><li>IRL events: Meetup, Eventbrite, Luma</li></ul><ul class="bulleted-list"><li><strong><span>Newsletter platforms</span></strong><ul class="bulleted-list"><li>Substack, <strong><span>Ghost</span></strong> (chosen for comparison)</li></ul></li></ul><h3>Ghost fees graph prototype</h3><p>The first version of the Ghost Fee calculator had a chart intended to visualize where a user’s financial break-even point was on fees vs. take-home income from paid subscriptions, and how Substack and Ghost faced off with the same audience makeup. Given time, I would probably succeed at making this make sense, but in the time allotted it had to be put down.</p><p>
-</p><h3>Redditizer QA test</h3><p>I was curious to see how well OCR-enhanced, pseudo-RAG UX writing tool would fare with only the documents provided and no further prompting or tuning. It brings me a wry chagrin to see it bears out exactly as expected: not the worst, but great either. That’s non-deterministic generation for you: doing the same thing 10 times and actually getting a different result.</p><p>Screenshot used is from Figma.</p><figure class="image"><img src="/assets/write-ups/figma-nux-modal.jpg" loading="lazy"></figure><pre class="code code-wrap"><code class="language-markdown">Image: Copy + Paste
+        </ul></article></section>
+<section
+          class="appendix-panel"
+          id="panel-redditizer-qa"
+          data-tab="redditizer-qa"
+          role="tabpanel"
+          aria-labelledby="tab-redditizer-qa"
+          hidden
+        ><article class="prose prose--redditizer-qa"><h2>Redditizer QA test</h2><p>I was curious to see how well OCR-enhanced, pseudo-RAG UX writing tool would fare with only the documents provided and no further prompting or tuning. It brings me a wry chagrin to see it bears out exactly as expected: not the worst, but great either. That’s non-deterministic generation for you: doing the same thing 10 times and actually getting a different result.</p><p>Screenshot used is from Figma.</p><figure class="image redditizer-qa-lead"><img src="/assets/write-ups/figma-nux-modal.jpg" loading="lazy"></figure><pre class="code code-wrap"><code class="language-markdown">Image: Copy + Paste
 Heading: Introducing a better copy and paste
 Body: We&#x27;ve made pasting more predictable across Figma, and also added three new features. Need to paste precisely? Try **paste here**. Want to replace something quickly? Use **paste to replace**. And you can now paste one thing in a bunch of places simultaneously through the magic of **multi-paste**.
 CTA: Explore playground
 
-Context: Figma new feature announcement: modal in the center of the app canvas with darkened scrim overlay</code></pre><figure class="image"><img src="/assets/write-ups/redditizer-screenshot-18-03.webp" loading="lazy"></figure><figure class="image"><img src="/assets/write-ups/redditizer-screenshot-19-24.webp" loading="lazy"></figure><figure class="image"><img src="/assets/write-ups/redditizer-screenshot-20-31.webp" loading="lazy"></figure><figure class="image"><img src="/assets/write-ups/redditizer-screenshot-22-38.webp" loading="lazy"></figure><figure class="image"><img src="/assets/write-ups/redditizer-screenshot-24-12.webp" loading="lazy"></figure><figure class="image"><img src="/assets/write-ups/redditizer-screenshot-25-10.webp" loading="lazy"></figure><figure class="image"><img src="/assets/write-ups/redditizer-screenshot-26-39.webp" loading="lazy"></figure><figure class="image"><img src="/assets/write-ups/redditizer-screenshot-28-07.webp" loading="lazy"></figure><figure class="image"><img src="/assets/write-ups/redditizer-screenshot-31-11.webp" loading="lazy"></figure><figure class="image"><img src="/assets/write-ups/redditizer-screenshot-32-20.webp" loading="lazy"></figure><figure class="image"><img src="/assets/write-ups/redditizer-screenshot-34-01.webp" loading="lazy"></figure><figure class="image"><img src="/assets/write-ups/redditizer-screenshot-35-12.webp" loading="lazy"></figure><figure class="image"><img src="/assets/write-ups/redditizer-screenshot-37-51.webp" loading="lazy"></figure><p>
-</p><h3>Patreon DMs — all missing features</h3><h4>Mobile</h4><ul class="bulleted-list"><li>Inbox<ul class="bulleted-list"><li>Can’t delete DMs (not even when you block them)</li></ul><ul class="bulleted-list"><li>Filtering uses “All” in 2 different ways</li></ul><ul class="bulleted-list"><li>Pill treatment … why?</li></ul><ul class="bulleted-list"><li>No context menu on chat, slide to Mute/Unmute (only way to do it)</li></ul></li></ul><ul class="bulleted-list"><li>Chatting<ul class="bulleted-list"><li>DM 1:1 — No empty state, v sad :(</li></ul><ul class="bulleted-list"><li>Context menu in chat<ul class="bulleted-list"><li>Redundant language</li></ul><ul class="bulleted-list"><li>Ordering is odd</li></ul><ul class="bulleted-list"><li>Not great UI</li></ul></li></ul><ul class="bulleted-list"><li>Replies<ul class="bulleted-list"><li>Compare patterns for replies in chat vs on posts</li></ul><ul class="bulleted-list"><li>Can’t navigate easily to threads you’re in</li></ul></li></ul><ul class="bulleted-list"><li>Typing indicator <ul class="bulleted-list"><li>“Someone is typing…” just sits there, dead, no animation</li></ul></li></ul><ul class="bulleted-list"><li>Timestamps<ul class="bulleted-list"><li>Placement after username + “ • “ is weird</li></ul><ul class="bulleted-list"><li>“Just now” → 1m ago</li></ul><ul class="bulleted-list"><li>truncates with long username</li></ul></li></ul></li></ul><ul class="bulleted-list"><li>Other global UX/IA issues<ul class="bulleted-list"><li>No search</li></ul><ul class="bulleted-list"><li>You can only DM with creators, not other subscribers — no indication</li></ul><ul class="bulleted-list"><li>Can’t mark a chat unread</li></ul><ul class="bulleted-list"><li>Unreads unreliable (if you’re scrolled up, no guarantee you’ll see the indicator in the FAB or from the inbox)</li></ul><ul class="bulleted-list"><li>Unread color inconsistent (red in chat and dot in app nav, blue in inbox)</li></ul></li></ul><h4>Desktop </h4><p>Inconsistencies mobile/desktop</p><ul class="bulleted-list"><li>Direct messages capitalization</li></ul><ul class="bulleted-list"><li>Pills are rectangular, No “All”</li></ul><ul class="bulleted-list"><li>Menu inconsistent “All / Unread”</li></ul><ul class="bulleted-list"><li>Bug where starting a new direct message doesn’t select any</li></ul><ul class="bulleted-list"><li>Has search, but it’s borked </li></ul><ul class="bulleted-list"><li>No controls on blocking a user or reporting them</li></ul><ul class="bulleted-list"><li>Leaving group chat — no confirmation on desktop</li></ul></div></article>
+Context: Figma new feature announcement: modal in the center of the app canvas with darkened scrim overlay</code></pre><div class="redditizer-qa-grid">
+<figure class="image"><img src="/assets/write-ups/redditizer-screenshot-18-03.webp" loading="lazy"></figure>
+<figure class="image"><img src="/assets/write-ups/redditizer-screenshot-19-24.webp" loading="lazy"></figure>
+<figure class="image"><img src="/assets/write-ups/redditizer-screenshot-20-31.webp" loading="lazy"></figure>
+<figure class="image"><img src="/assets/write-ups/redditizer-screenshot-24-12.webp" loading="lazy"></figure>
+<figure class="image"><img src="/assets/write-ups/redditizer-screenshot-25-10.webp" loading="lazy"></figure>
+<figure class="image"><img src="/assets/write-ups/redditizer-screenshot-26-39.webp" loading="lazy"></figure>
+<figure class="image"><img src="/assets/write-ups/redditizer-screenshot-28-07.webp" loading="lazy"></figure>
+<figure class="image"><img src="/assets/write-ups/redditizer-screenshot-31-11.webp" loading="lazy"></figure>
+<figure class="image"><img src="/assets/write-ups/redditizer-screenshot-32-20.webp" loading="lazy"></figure>
+<figure class="image"><img src="/assets/write-ups/redditizer-screenshot-34-01.webp" loading="lazy"></figure>
+<figure class="image"><img src="/assets/write-ups/redditizer-screenshot-35-12.webp" loading="lazy"></figure>
+<figure class="image"><img src="/assets/write-ups/redditizer-screenshot-37-51.webp" loading="lazy"></figure>
+</div><p>
+</p></article></section>
+<section
+          class="appendix-panel"
+          id="panel-patreon-dms"
+          data-tab="patreon-dms"
+          role="tabpanel"
+          aria-labelledby="tab-patreon-dms"
+          hidden
+        ><article class="prose"><h2>Patreon DMs—all missing features</h2><h4>Mobile</h4><ul class="bulleted-list"><li>Inbox<ul class="bulleted-list"><li>Can’t delete DMs (not even when you block them)</li></ul><ul class="bulleted-list"><li>Filtering uses “All” in 2 different ways</li></ul><ul class="bulleted-list"><li>Pill treatment … why?</li></ul><ul class="bulleted-list"><li>No context menu on chat, slide to Mute/Unmute (only way to do it)</li></ul></li></ul><ul class="bulleted-list"><li>Chatting<ul class="bulleted-list"><li>DM 1:1—No empty state, v sad :(</li></ul><ul class="bulleted-list"><li>Context menu in chat<ul class="bulleted-list"><li>Redundant language</li></ul><ul class="bulleted-list"><li>Ordering is odd</li></ul><ul class="bulleted-list"><li>Not great UI</li></ul></li></ul><ul class="bulleted-list"><li>Replies<ul class="bulleted-list"><li>Compare patterns for replies in chat vs on posts</li></ul><ul class="bulleted-list"><li>Can’t navigate easily to threads you’re in</li></ul></li></ul><ul class="bulleted-list"><li>Typing indicator <ul class="bulleted-list"><li>“Someone is typing…” just sits there, dead, no animation</li></ul></li></ul><ul class="bulleted-list"><li>Timestamps<ul class="bulleted-list"><li>Placement after username + “ • “ is weird</li></ul><ul class="bulleted-list"><li>“Just now” → 1m ago</li></ul><ul class="bulleted-list"><li>truncates with long username</li></ul></li></ul></li></ul><ul class="bulleted-list"><li>Other global UX/IA issues<ul class="bulleted-list"><li>No search</li></ul><ul class="bulleted-list"><li>You can only DM with creators, not other subscribers—no indication</li></ul><ul class="bulleted-list"><li>Can’t mark a chat unread</li></ul><ul class="bulleted-list"><li>Unreads unreliable (if you’re scrolled up, no guarantee you’ll see the indicator in the FAB or from the inbox)</li></ul><ul class="bulleted-list"><li>Unread color inconsistent (red in chat and dot in app nav, blue in inbox)</li></ul></li></ul><h4>Desktop </h4><p>Inconsistencies mobile/desktop</p><ul class="bulleted-list"><li>Direct messages capitalization</li></ul><ul class="bulleted-list"><li>Pills are rectangular, No “All”</li></ul><ul class="bulleted-list"><li>Menu inconsistent “All / Unread”</li></ul><ul class="bulleted-list"><li>Bug where starting a new direct message doesn’t select any</li></ul><ul class="bulleted-list"><li>Has search, but it’s borked </li></ul><ul class="bulleted-list"><li>No controls on blocking a user or reporting them</li></ul><ul class="bulleted-list"><li>Leaving group chat—no confirmation on desktop</li></ul></div></article></section>
+<section
+          class="appendix-panel"
+          id="panel-platforms"
+          data-tab="platforms"
+          role="tabpanel"
+          aria-labelledby="tab-platforms"
+          hidden
+        ><article class="prose"><h2>Platforms considered</h2><p><em>Direct messaging</em></p><ul class="bulleted-list"><li>Telegram, WhatsApp, Instagram, Facebook Messenger, Signal, Snap</li></ul><ul class="bulleted-list"><li>WeChat, LINE, KakaoTalk, QQ</li></ul><ul class="bulleted-list"><li><strong><span>DM as side feature</span></strong><ul class="bulleted-list"><li>Airbnb, DoorDash, <strong><span>Patreon</span></strong>, Twitch Whispers + Chatterino (audit begun, but too limited)</li></ul></li></ul><p><em>Onboarding</em></p><ul class="bulleted-list"><li>Food kits: Hello Fresh, Blue Apron, Dinnerly—via <a href="https://www.nytimes.com/wirecutter/reviews/best-meal-kit-delivery-services/">Wirecutter</a></li></ul><ul class="bulleted-list"><li>IRL events: Meetup, Eventbrite, Luma</li></ul><ul class="bulleted-list"><li><strong><span>Newsletter platforms</span></strong><ul class="bulleted-list"><li>Substack, <strong><span>Ghost</span></strong> (chosen for comparison)</li></ul></li></ul></article></section></div>
       </main>
-      
       <footer class="site-footer">
-        <a href="/changelog/">Changelog</a>
-        <a href="/">Home</a>
+        <p class="site-footer__credit">
+          made with moxie by <a href="https://linkedin.com/in/corij/" target="_blank" rel="noopener noreferrer">cori</a>
+          with <a href="https://cursor.com/" target="_blank" rel="noopener noreferrer">cursor</a>
+        </p>
       </footer>
-    
+    </div>
+    <script type="module" src="/appendix/main.js"></script>
+    <script type="module" src="/src/prose-images.js"></script>
   </body>
 </html>
