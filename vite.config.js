@@ -8,6 +8,7 @@ export default defineConfig({
         main: resolve(__dirname, 'index.html'),
         redditizer: resolve(__dirname, 'redditizer/index.html'),
         ghostFees: resolve(__dirname, 'ghost-fees/index.html'),
+        changelog: resolve(__dirname, 'changelog/index.html'),
       },
     },
   },
