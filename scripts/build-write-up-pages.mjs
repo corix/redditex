@@ -123,6 +123,9 @@ function mergeExamplesGallery(body) {
   )
 }
 
+const GHOST_TAKEAWAYS = `<h4>Takeaways</h4>
+<p>Spin-offs from this audit: <a href="/appendix/fee-calculator/"><strong>Ghost Fees</strong></a> (stress-test take-home pay), <a href="/appendix/redditizer/"><strong>Redditizer</strong></a> (draft clearer copy), and the <a href="/appendix/">Appendix</a> for QA output and research notes.</p>`
+
 const GHOST_PRICING_COMPARISON = `<figure class="image-compare" data-image-compare style="--compare: 75%">
 <div class="image-compare__stage">
 <img class="image-compare__back" src="/assets/write-ups/pricing-page-alt-1k.webp" alt="Revised copy—lowest tier" loading="lazy" decoding="async">
@@ -160,6 +163,9 @@ function patchGhostArticle(body) {
       /(<p>In the interest of saving myself time[\s\S]*?tokens are limited\.\)<\/p>)/,
       `$1${GHOST_PRICING_COMPARISON}`,
     )
+  }
+  if (!out.includes('<h4>Takeaways</h4>')) {
+    out += GHOST_TAKEAWAYS
   }
   return out
 }
@@ -339,7 +345,10 @@ function formatRedditizerQaSection(html) {
   return chunks[0] + leadFigure + chunks[1] + grid + chunks[figures.length]
 }
 
+const APPENDIX_TOOLS_INTRO = `<p>Interactive prototypes spun out of the write-ups—useful for validating claims or drafting copy, not part of the core audits.</p>`
+
 const APPENDIX_TOOLS_GALLERY = `
+        ${APPENDIX_TOOLS_INTRO}
         <ul class="appendix-tools-gallery">
           <li class="appendix-tools-gallery__item">
             <figure class="appendix-tools-gallery__shot">
@@ -474,6 +483,10 @@ function appendixPageShell({ panels, nav, tabs }) {
     </aside>
     <motion class="appendix-main site-layout site-layout--wide">
       ${siteToolbar({ breadcrumb: tabTrail })}
+      <header class="site-header">
+        <h1>Appendix</h1>
+        <p class="site-lead">Tools, QA notes, and research paths behind the Patreon and Ghost write-ups.</p>
+      </header>
       <main class="site-main">
         <div class="appendix-panels">${panels}</div>
       </main>
@@ -536,13 +549,13 @@ fs.writeFileSync(path.join(root, 'appendix/index.html'), appendixHtml)
 const homeHtml = contentShell({
   title: 'Trying new things for Reddit’s amusement',
   headerTitle: 'Trying new things for Reddit’s amusement',
-  headerLead: 'Small experiments, prototypes, UX audits, and recommendations',
+  headerLead: 'Audit, build, rec, repeat',
   main: `
         <ul class="directory">
             ${directoryItem({
               href: '/messaging-ghost/',
-              title: 'Ghost.org onboarding',
-              description: 'Onboard and evaluate as a potentially viable alternative to Substack',
+              title: 'Ghost onboarding',
+              description: 'Rigorously assess a Substack alternative',
               thumb: HERO_THUMBS.ghost,
               thumbAlt: 'Ghost.org homepage',
               fetchPriority: 'high',
@@ -551,8 +564,8 @@ const homeHtml = contentShell({
             })}
             ${directoryItem({
               href: '/onboarding-patreon/',
-              title: 'Patreon direct messaging',
-              description: 'UX teardown of Patreon DMs and mobile inbox patterns.',
+              title: 'Patreon DMs',
+              description: 'Tear a neglected feature while it’s down',
               thumb: HERO_THUMBS.patreon,
               thumbAlt: 'Patreon mobile app screenshots',
               thumbSize: HOME_THUMB_SIZE,
@@ -561,7 +574,7 @@ const homeHtml = contentShell({
             ${directoryItem({
               href: '/appendix/',
               title: 'Appendix',
-              description: 'Interactive tools, quality testing, audit notes',
+              description: 'Cutting room floor and Lazarus pit',
               thumb: HERO_THUMBS.fees,
               thumbAlt: 'Ghost vs Substack fee calculator',
               thumbSize: HOME_THUMB_SIZE,
