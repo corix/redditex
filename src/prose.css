@@ -63,13 +63,13 @@
 
 .prose h3 {
   margin: var(--space-6) 0 var(--space-2);
-  font-size: 1.1rem;
+  font-size: var(--text-lg);
   font-weight: 600;
 }
 
 .prose h4 {
   margin: var(--space-5) 0 var(--space-2);
-  font-size: 1rem;
+  font-size: var(--text-base);
   font-weight: 600;
 }
 
@@ -152,11 +152,6 @@
   color: var(--highlight-ink);
 }
 
-.prose--patreon strong.prose-priority::before {
-  background: var(--highlight-priority);
-  box-shadow: 0 1px 0 rgba(19, 17, 26, 0.12);
-}
-
 .prose ul,
 .prose ol {
   margin: 0 0 var(--space-4);
@@ -196,14 +191,7 @@
 }
 
 .prose ul.bulleted-list strong::before {
-  background: var(--highlight-list);
   transform: rotate(0.9deg) skewX(2deg);
-}
-
-/* Platforms considered (appendix)—yellow markers in lists */
-#panel-platforms .prose ul.bulleted-list strong::before {
-  background: var(--highlight);
-  transform: rotate(-1deg) skewX(-3deg);
 }
 
 .prose .indented {
@@ -225,10 +213,16 @@
   right: -0.1em;
   bottom: 0.06em;
   height: 0.58em;
-  background: var(--highlight);
+  background: var(--highlight-list);
   border-radius: 3px 5px 2px 4px / 4px 2px 5px 3px;
   transform: rotate(-1deg) skewX(-3deg);
   box-shadow: 0 1px 0 rgba(19, 17, 26, 0.08);
+}
+
+/* Blue marker when specified (e.g. Patreon P0 / P1 labels) */
+.prose strong.prose-priority::before {
+  background: var(--highlight-priority);
+  box-shadow: 0 1px 0 rgba(19, 17, 26, 0.12);
 }
 
 .prose em {
@@ -240,30 +234,44 @@
   color: var(--text-muted-on-shade);
 }
 
-.prose a {
+/* Internal links: bold black + always-on yellow marker */
+.prose a:is([href^='/'], [href^='#']) {
+  font-weight: 600;
+  color: var(--highlight-ink);
+  text-decoration: none;
+}
+
+.prose a:is([href^='/'], [href^='#'])::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  left: -0.14em;
+  right: -0.1em;
+  bottom: 0.06em;
+  height: 0.58em;
+  background: var(--highlight);
+  border-radius: 3px 5px 2px 4px / 4px 2px 5px 3px;
+  transform: rotate(-1deg) skewX(-3deg);
+  box-shadow: 0 1px 0 rgba(19, 17, 26, 0.08);
+}
+
+.prose a:is([href^='/'], [href^='#']):is(:hover, :focus-visible) {
+  color: var(--link-hover);
+}
+
+.prose a strong::before {
+  content: none;
+}
+
+/* External links: orange underline */
+.prose a[href^='http'] {
   text-decoration: underline;
   text-underline-offset: 0.15em;
   text-decoration-color: color-mix(in srgb, var(--link) 50%, transparent);
 }
 
-.prose a:hover {
+.prose a[href^='http']:hover {
   text-decoration-color: transparent;
-}
-
-.prose a:has(strong) {
-  text-decoration: none;
-}
-
-.prose a:has(strong):hover,
-.prose a:has(strong):hover strong,
-.prose a:has(strong):focus-visible,
-.prose a:has(strong):focus-visible strong {
-  color: var(--link-hover);
-}
-
-.prose a:has(strong):hover::before,
-.prose a:has(strong):focus-visible::before {
-  content: none;
 }
 
 .prose hr {

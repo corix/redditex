@@ -21,19 +21,19 @@ function polish(html) {
     .replace(/\/ghost-fees\//g, '/appendix/fee-calculator/')
     .replace(
       /<strong>\/ghost-fees\/<\/strong>/g,
-      '<a href="/appendix/fee-calculator/"><strong>Ghost Fees</strong></a>',
+      '<a href="/appendix/fee-calculator/">Ghost Fees</a>',
     )
     .replace(
       /live at <strong>\/appendix\/fee-calculator\/<\/strong>/g,
-      'live at <a href="/appendix/fee-calculator/"><strong>Ghost Fees</strong></a>',
+      'live at <a href="/appendix/fee-calculator/">Ghost Fees</a>',
     )
     .replace(
       /live at <a href="\/appendix\/fee-calculator\/">\/appendix\/fee-calculator\/<\/a>/g,
-      'live at <a href="/appendix/fee-calculator/"><strong>Ghost Fees</strong></a>',
+      'live at <a href="/appendix/fee-calculator/">Ghost Fees</a>',
     )
     .replace(
       /<strong>Redditizer<\/strong>/g,
-      '<a href="/appendix/redditizer/"><strong>Redditizer</strong></a>',
+      '<a href="/appendix/redditizer/">Redditizer</a>',
     )
     .replace(
       /\(see notes\)/gi,
@@ -84,7 +84,7 @@ const HERO_THUMBS = {
 const HERO_IMAGES = {
   'messaging-ghost/index.html': {
     src: '/assets/hero/ghost-homepage-short.webp',
-    alt: 'Ghost.org marketing homepage',
+    alt: 'Ghost marketing homepage',
     leadCrop: true,
     leadCropTop: true,
   },
@@ -123,8 +123,8 @@ function mergeExamplesGallery(body) {
   )
 }
 
-const GHOST_TAKEAWAYS = `<h4>Further experimentation</h4>
-<p>Spin-offs from this audit: <a href="/appendix/fee-calculator/"><strong>Ghost Fees</strong></a> (stress-test take-home pay), <a href="/appendix/redditizer/"><strong>Redditizer</strong></a> (draft clearer copy), and the <a href="/appendix/">Appendix</a> for QA output and research notes.</p>`
+const GHOST_TAKEAWAYS = `<h4>Venture further</h4>
+<p>Spin-offs from this audit: <a href="/appendix/fee-calculator/">Ghost Fees</a> (stress-test take-home pay), <a href="/appendix/redditizer/">Redditizer</a> (draft clearer copy), and the <a href="/appendix/">Appendix</a> for QA output and research notes.</p>`
 
 const GHOST_PRICING_COMPARISON = `<figure class="image-compare" data-image-compare style="--compare: 75%">
 <div class="image-compare__stage">
@@ -137,6 +137,8 @@ const GHOST_PRICING_COMPARISON = `<figure class="image-compare" data-image-compa
 </div>
 <figcaption>Drag the handle to compare. <strong>Original:</strong> problematic “No payment fees” claim. <strong>Revised:</strong> lowest-tier copy.</figcaption>
 </figure>`
+
+const GHOST_COMPETITOR_PARA = `<p>Whether or not that’s the intent, I’m less persuaded when a company repeatedly presents competitors in a one-sided way—as Ghost does in its head-to-head comparison tables on <a href="https://ghost.org/alternatives/">Ghost vs. Others.</a>—particularly when it isn’t equally transparent and forthright about its own fees. Give me another 48 hours, and I would apply Reddit’s “Candid” rubric to a thorough review of every instance where Ghost describes its pricing structure, its benefits, and how it compares to competitors.</p>`
 
 const GHOST_PRICING_COLUMN_LIST =
   /<div class="column-list">[\s\S]*?pricing-page-original\.webp[\s\S]*?<\/div>\s*<\/div>/
@@ -164,7 +166,15 @@ function patchGhostArticle(body) {
       `$1${GHOST_PRICING_COMPARISON}`,
     )
   }
-  if (!out.includes('<h4>Further experimentation</h4>')) {
+  out = out.replace(
+    /<p[^>]*>Even if Ghost is not intending to be disingenuous[\s\S]*?how it compares to competitors\.<\/p>/,
+    GHOST_COMPETITOR_PARA,
+  )
+  out = out.replace(
+    /<a href="https:\/\/ghost\.org\/alternatives\/">(?:<strong>)?Ghost vs\.? Others\.?(?:<\/strong>)?<\/a>/,
+    '<a href="https://ghost.org/alternatives/">Ghost vs. Others.</a>',
+  )
+  if (!out.includes('<h4>Venture further</h4>')) {
     out += GHOST_TAKEAWAYS
   }
   return out
@@ -474,9 +484,9 @@ function appendixPageShell({ panels, nav, tabs }) {
   </head>
   <body class="appendix-body">
     <aside class="appendix-rail" aria-label="Appendix">
-      <div class="appendix-rail__head">
-        <p class="appendix-rail__label">Appendix</p>
-      </div>
+      <motion class="appendix-rail__head">
+        <motion class="appendix-rail__rule" aria-hidden="true"></motion>
+      </motion>
       <nav class="appendix-nav" aria-label="Appendix sections">
         <ul role="tablist">${nav}</ul>
       </nav>
@@ -532,7 +542,7 @@ writeArticlePage(
 )
 writeArticlePage(
   'messaging-ghost/index.html',
-  'Ghost.org onboarding',
+  'Ghost onboarding',
   'Onboarding',
   messaging,
   writeUpProse,
@@ -547,9 +557,8 @@ const appendixHtml = appendixPageShell({ panels, nav, tabs })
 fs.writeFileSync(path.join(root, 'appendix/index.html'), appendixHtml)
 
 const homeHtml = contentShell({
-  title: 'Trying new things for Reddit’s amusement',
-  headerTitle: 'Trying new things for Reddit’s amusement',
-  headerLead: 'Audit, build, rec, repeat',
+  title: 'Trying new things, because Reddit',
+  headerTitle: 'Trying new things, because Reddit',
   main: `
         <ul class="directory">
             ${directoryItem({

@@ -199,6 +199,7 @@ textarea.copy-input-dragover {
 
 .card h2 {
   margin: 0 0 0.75rem;
+  font-family: var(--font-heading);
   font-size: 1rem;
   font-weight: 600;
 }

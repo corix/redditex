@@ -10,7 +10,7 @@ body.appendix-body {
   flex-direction: column;
   width: var(--appendix-rail);
   height: 100dvh;
-  padding: var(--space-6) 0;
+  padding: var(--space-8) 0 var(--space-6);
   border-right: 1px solid var(--border-on-shade);
   background: var(--shade);
   color: var(--text-on-shade);
@@ -18,19 +18,22 @@ body.appendix-body {
   overflow-y: auto;
 }
 
+/* Match site-toolbar row height so the rule lines up with breadcrumb text */
 .appendix-rail__head {
   flex-shrink: 0;
-  margin-bottom: var(--space-5);
+  display: flex;
+  align-items: center;
+  height: 1lh;
+  margin-bottom: var(--space-3);
   padding: 0 var(--space-4);
+  font-size: var(--text-sm);
 }
 
-.appendix-rail__label {
+.appendix-rail__rule {
+  width: 100%;
+  height: 1px;
   margin: 0;
-  font-size: var(--text-sm);
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  color: var(--text-on-shade);
+  background: var(--border-on-shade);
 }
 
 .appendix-nav {
@@ -249,7 +252,13 @@ body.appendix-body {
   }
 
   .appendix-rail__head {
+    height: auto;
     margin-bottom: var(--space-3);
+    padding: 0 var(--space-4);
+  }
+
+  .appendix-rail__rule {
+    display: none;
   }
 
   .appendix-nav ul {

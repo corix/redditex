@@ -23,15 +23,15 @@
   --accent-teal: #00c4b8;
   --accent-teal-hover: #00a99e;
 
-  /* Text links (orange default → teal on hover) */
+  /* External text links (orange → teal on hover) */
   --link: #ff6b2b;
   --link-hover: var(--accent-teal);
 
   /* Marker highlights */
-  --highlight: #e8ff00;
+  --highlight: #e8ff00; /* internal links, UI bands */
   --highlight-band: color-mix(in srgb, var(--highlight) 85%, #ffffff);
-  --highlight-list: #ffd0eb;
-  --highlight-priority: #b8f8ff;
+  --highlight-list: #ffd0eb; /* non-link bold emphasis (default) */
+  --highlight-priority: #b8f8ff; /* non-link bold emphasis when .prose-priority */
   --callout-attrib: #f23cff;
   --highlight-ink: #121018;
 
@@ -44,14 +44,15 @@
   --font-serif: Charter, 'Bitstream Charter', 'Sitka Text', Cambria, Georgia, 'Times New Roman',
     Times, serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-heading: 'Klima', var(--font-sans);
 
   --text-sm: 0.875rem;
   --text-base: 0.95rem;
   --text-reading: 1.125rem;
   --write-up-text-inset: clamp(1.5rem, 6vw, 4.5rem);
-  --text-lg: 1.125rem;
-  --text-xl: 1.35rem;
-  --text-2xl: 1.75rem;
+  --text-lg: 1.3125rem;
+  --text-xl: 1.625rem;
+  --text-2xl: 2.125rem;
 
   --space-1: 0.25rem;
   --space-2: 0.5rem;
